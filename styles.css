@@ -3513,3 +3513,154 @@ select.orderby {
 		width: 100%;
 	}
 }
+
+/* T47: ocultar el CTA flotante mientras el menú overlay está abierto
+   (no debe tapar "Finalizar compra") */
+html.has-modal-open .ks-floating-cta {
+	display: none !important;
+}
+
+/* ==========================================================================
+   Kinesilk — Página de checkout clásico (T48, T49)
+   ========================================================================== */
+.woocommerce-checkout .col2-set .col-1,
+.woocommerce-checkout .col2-set .col-2 {
+	width: 100%;
+}
+
+/* Campos: legibles y con el look del tema */
+.woocommerce-checkout .input-text,
+.woocommerce-checkout input[type="text"],
+.woocommerce-checkout input[type="email"],
+.woocommerce-checkout input[type="tel"],
+.woocommerce-checkout input[type="password"],
+.woocommerce-checkout select,
+.woocommerce-checkout textarea {
+	background: var(--ks-white);
+	border: 1.5px solid rgba(30, 43, 42, .18);
+	border-radius: 12px;
+	box-sizing: border-box;
+	font-size: 1rem;
+	min-height: 52px;
+	padding: .8rem 1rem;
+	width: 100%;
+}
+
+.woocommerce-checkout textarea {
+	min-height: 110px;
+}
+
+.woocommerce-checkout .input-text:focus,
+.woocommerce-checkout select:focus,
+.woocommerce-checkout textarea:focus {
+	border-color: var(--ks-coral);
+	box-shadow: 0 0 0 3px rgba(254, 164, 164, .25);
+	outline: none;
+}
+
+.woocommerce-checkout .form-row label,
+.woocommerce-checkout label {
+	color: var(--ks-ink);
+	font-size: .95rem;
+	font-weight: 600;
+	margin-bottom: .35rem;
+}
+
+/* Select2 (país/región) a la misma altura */
+.woocommerce-checkout .select2-container--default .select2-selection--single {
+	align-items: center;
+	border: 1.5px solid rgba(30, 43, 42, .18);
+	border-radius: 12px;
+	display: flex;
+	font-size: 1rem;
+	height: 52px;
+	padding: 0 .5rem;
+}
+
+/* Títulos de sección */
+.woocommerce-checkout #customer_details h3,
+.woocommerce-checkout .woocommerce-billing-fields > h3,
+.woocommerce-checkout .woocommerce-additional-fields > h3,
+.woocommerce-checkout #order_review_heading {
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.4rem;
+	font-weight: 700;
+	margin-bottom: 1rem;
+}
+
+/* Caja del resumen del pedido */
+.woocommerce-checkout #order_review {
+	background: var(--ks-white);
+	border: 1px solid rgba(30, 43, 42, .08);
+	border-radius: 18px;
+	box-shadow: var(--ks-shadow);
+	padding: 1.5rem;
+}
+
+.woocommerce-checkout .woocommerce-checkout-review-order-table {
+	font-size: 1rem;
+}
+
+/* Botón de realizar pedido */
+.woocommerce-checkout #place_order {
+	background: var(--ks-mint) !important;
+	border: 0 !important;
+	border-radius: 999px !important;
+	color: var(--ks-ink) !important;
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: 1.05rem;
+	font-weight: 700;
+	min-height: 56px;
+	padding: .85rem 2rem;
+	transition: background-color .2s ease, transform .2s ease;
+	width: 100%;
+}
+
+.woocommerce-checkout #place_order:hover {
+	background: var(--ks-aqua) !important;
+	transform: translateY(-2px);
+}
+
+/* Aviso de cupón */
+.woocommerce-checkout .woocommerce-form-coupon-toggle .woocommerce-info {
+	background: var(--ks-cream);
+	border-radius: 12px;
+}
+
+/* Layout 2 columnas en desktop */
+@media (min-width: 992px) {
+	.woocommerce-checkout .col2-set {
+		align-items: start;
+		display: grid;
+		gap: 2.5rem;
+		grid-template-columns: 1.3fr 1fr;
+	}
+
+	.woocommerce-checkout #order_review {
+		position: sticky;
+		top: 90px;
+	}
+}
+
+/* T48/T49 extra: campo de cupón y cualquier input del checkout */
+.checkout_coupon .input-text,
+.woocommerce-page form.checkout_coupon input[type="text"],
+body.woocommerce-checkout .input-text {
+	background: var(--ks-white);
+	border: 1.5px solid rgba(30, 43, 42, .18);
+	border-radius: 12px;
+	box-sizing: border-box;
+	font-size: 1rem;
+	min-height: 52px;
+	padding: .8rem 1rem;
+}
+
+/* T49 fix: vence la especificidad de WooCommerce para el tamaño de fuente */
+.woocommerce form .form-row input.input-text,
+.woocommerce-checkout .form-row input.input-text,
+.woocommerce-checkout .form-row select,
+.woocommerce-checkout .form-row textarea,
+.woocommerce-checkout #customer_details input.input-text {
+	border-radius: 12px !important;
+	font-size: 1rem !important;
+}
