@@ -1,0 +1,32 @@
+<!-- wp:template-part {"slug":"header","tagName":"header","className":"ks-header"} /-->
+<!-- wp:group {"tagName":"main","className":"ks-main ks-section ks-services-page","layout":{"type":"constrained"}} -->
+<main class="wp-block-group ks-main ks-section ks-services-page"><!-- wp:woocommerce/breadcrumbs {"className":"ks-breadcrumbs"} /-->
+<!-- wp:group {"className":"ks-section__head","layout":{"type":"default"}} -->
+<div class="wp-block-group ks-section__head"><!-- wp:paragraph {"className":"ks-eyebrow"} -->
+<p class="ks-eyebrow">Servicios · Punta Arenas</p>
+<!-- /wp:paragraph -->
+<!-- wp:query-title {"type":"archive","showPrefix":false,"className":"ks-title"} /-->
+<!-- wp:term-description {"className":"ks-lead"} /--></div>
+<!-- /wp:group -->
+<!-- wp:shortcode -->
+[ks_subcategorias]
+<!-- /wp:shortcode -->
+<!-- wp:group {"tagName":"nav","className":"ks-cats ks-cats--sticky","layout":{"type":"default"}} -->
+<nav class="wp-block-group ks-cats ks-cats--sticky"><!-- wp:woocommerce/product-categories {"hasCount":false,"hasEmpty":false,"isHierarchical":false} /--></nav>
+<!-- /wp:group -->
+<!-- wp:woocommerce/product-collection {"queryId":22,"query":{"perPage":12,"pages":0,"offset":0,"postType":"product","order":"asc","orderBy":"menu_order","search":"","exclude":[],"inherit":true,"taxQuery":[],"isProductCollectionBlock":true,"featured":false,"woocommerceOnSale":false,"woocommerceStockStatus":["instock","outofstock","onbackorder"],"woocommerceAttributes":[],"woocommerceHandPickedProducts":[]},"tagName":"div","displayLayout":{"type":"flex","columns":3,"shrinkColumns":true},"collection":"woocommerce/product-collection/product-catalog","className":"ks-products ks-products--catalog"} -->
+<div class="wp-block-woocommerce-product-collection ks-products ks-products--catalog"><!-- wp:woocommerce/product-template -->
+<!-- wp:woocommerce/product-image {"showProductLink":true,"showSaleBadge":true,"saleBadgeAlign":"left","isDescendentOfQueryLoop":true} /-->
+<!-- wp:post-title {"isLink":true,"level":3,"__woocommerceNamespace":"woocommerce/product-collection/product-title"} /-->
+<!-- wp:woocommerce/product-rating {"isDescendentOfQueryLoop":true} /-->
+<!-- wp:woocommerce/product-price {"isDescendentOfQueryLoop":true} /-->
+<!-- wp:woocommerce/product-button {"isDescendentOfQueryLoop":true} /-->
+<!-- /wp:woocommerce/product-template -->
+<!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
+<!-- wp:query-pagination-previous /-->
+<!-- wp:query-pagination-numbers /-->
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination --></div>
+<!-- /wp:woocommerce/product-collection --></main>
+<!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","tagName":"footer","className":"ks-footer"} /-->

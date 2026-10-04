@@ -1,0 +1,282 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "useRootPaddingAwareAlignments": true,
+    "layout": {
+      "contentSize": "1180px",
+      "wideSize": "1320px"
+    },
+    "color": {
+      "defaultPalette": false,
+      "defaultGradients": false,
+      "custom": false,
+      "customGradient": false,
+      "palette": [
+        {
+          "slug": "cream",
+          "name": "Crema",
+          "color": "#FCF9EA"
+        },
+        {
+          "slug": "mint",
+          "name": "Menta",
+          "color": "#87E9CE"
+        },
+        {
+          "slug": "coral",
+          "name": "Coral",
+          "color": "#FEA4A4"
+        },
+        {
+          "slug": "blush",
+          "name": "Rubor",
+          "color": "#FFBDBE"
+        },
+        {
+          "slug": "aqua",
+          "name": "Agua",
+          "color": "#BADEDA"
+        },
+        {
+          "slug": "white",
+          "name": "Blanco",
+          "color": "#FFFFFF"
+        },
+        {
+          "slug": "ink",
+          "name": "Tinta",
+          "color": "#1E2B2A"
+        },
+        {
+          "slug": "ink-soft",
+          "name": "Tinta suave",
+          "color": "#4A5856"
+        },
+        {
+          "slug": "promo-pink",
+          "name": "Promo rosa (hero)",
+          "color": "#C2366B"
+        },
+        {
+          "slug": "promo-yellow",
+          "name": "Promo amarillo (hero)",
+          "color": "#FFC22E"
+        },
+        {
+          "slug": "hero-pink",
+          "name": "Rosa hero",
+          "color": "#EFA6C4"
+        }
+      ]
+    },
+    "typography": {
+      "fluid": true,
+      "customFontSize": false,
+      "fontFamilies": [
+        {
+          "slug": "body",
+          "name": "DM Sans",
+          "fontFamily": "\"DM Sans\", system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "DM Sans",
+              "fontWeight": "400 700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/dm-sans.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "heading",
+          "name": "Outfit",
+          "fontFamily": "Outfit, system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Outfit",
+              "fontWeight": "400 700",
+              "fontStyle": "normal",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/outfit.woff2"
+              ]
+            }
+          ]
+        },
+        {
+          "slug": "promo",
+          "name": "Poppins (promo)",
+          "fontFamily": "Poppins, system-ui, sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Poppins",
+              "fontWeight": "800",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/poppins-xbi.woff2"
+              ]
+            },
+            {
+              "fontFamily": "Poppins",
+              "fontWeight": "900",
+              "fontStyle": "italic",
+              "fontDisplay": "swap",
+              "src": [
+                "file:./assets/fonts/poppins-bi.woff2"
+              ]
+            }
+          ]
+        }
+      ],
+      "fontSizes": [
+        {
+          "slug": "small",
+          "name": "Pequeño",
+          "size": "0.9375rem",
+          "fluid": false
+        },
+        {
+          "slug": "medium",
+          "name": "Mediano",
+          "size": "1.0625rem",
+          "fluid": false
+        },
+        {
+          "slug": "large",
+          "name": "Grande",
+          "size": "1.375rem",
+          "fluid": {
+            "min": "1.25rem",
+            "max": "1.5rem"
+          }
+        },
+        {
+          "slug": "x-large",
+          "name": "Muy grande",
+          "size": "2.25rem",
+          "fluid": {
+            "min": "1.75rem",
+            "max": "2.75rem"
+          }
+        },
+        {
+          "slug": "xx-large",
+          "name": "Enorme",
+          "size": "3.5rem",
+          "fluid": {
+            "min": "2.5rem",
+            "max": "4rem"
+          }
+        }
+      ]
+    },
+    "spacing": {
+      "units": [
+        "px",
+        "rem",
+        "%",
+        "vw"
+      ],
+      "spacingScale": {
+        "steps": 0
+      },
+      "spacingSizes": [
+        {
+          "slug": "20",
+          "name": "XS",
+          "size": "0.5rem"
+        },
+        {
+          "slug": "30",
+          "name": "S",
+          "size": "1rem"
+        },
+        {
+          "slug": "40",
+          "name": "M",
+          "size": "1.5rem"
+        },
+        {
+          "slug": "50",
+          "name": "L",
+          "size": "clamp(2rem, 4vw, 3rem)"
+        },
+        {
+          "slug": "60",
+          "name": "XL",
+          "size": "clamp(3rem, 7vw, 6rem)"
+        }
+      ]
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var(--wp--preset--color--cream)",
+      "text": "var(--wp--preset--color--ink)"
+    },
+    "spacing": {
+      "padding": {
+        "left": "1.25rem",
+        "right": "1.25rem"
+      },
+      "blockGap": "1.25rem"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--body)",
+      "fontSize": "var(--wp--preset--font-size--medium)",
+      "lineHeight": "1.65"
+    },
+    "elements": {
+      "link": {
+        "color": {
+          "text": "var(--wp--preset--color--ink)"
+        }
+      },
+      "heading": {
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--heading)",
+          "fontWeight": "600",
+          "lineHeight": "1.15"
+        }
+      },
+      "button": {
+        "color": {
+          "background": "var(--wp--preset--color--coral)",
+          "text": "var(--wp--preset--color--ink)"
+        },
+        "border": {
+          "radius": "999px"
+        },
+        "typography": {
+          "fontWeight": "600"
+        }
+      }
+    }
+  },
+  "customTemplates": [
+    {
+      "name": "page-landing",
+      "title": "Landing Kinesilk",
+      "postTypes": [
+        "page"
+      ]
+    }
+  ],
+  "templateParts": [
+    {
+      "name": "header",
+      "title": "Cabecera",
+      "area": "header"
+    },
+    {
+      "name": "footer",
+      "title": "Pie de página",
+      "area": "footer"
+    }
+  ]
+}
