@@ -3499,3 +3499,17 @@ select.orderby {
 	justify-content: center;
 	margin-top: 1.1rem;
 }
+
+/* ==========================================================================
+   Kinesilk — Menú mobile: "Agenda tu cita" y "Finalizar compra" a ancho
+   completo respetando el gutter del menú (T46)
+   ========================================================================== */
+@media (max-width: 1023px) {
+	.ks-nav .wp-block-navigation__responsive-container.is-menu-open .ks-nav-whatsapp .wp-block-navigation-item__content,
+	.ks-nav .wp-block-navigation__responsive-container.is-menu-open .ks-nav-checkout .wp-block-navigation-item__content {
+		box-sizing: border-box;
+		display: block;
+		text-align: center;
+		width: 100%;
+	}
+}
