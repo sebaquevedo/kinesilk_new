@@ -407,7 +407,7 @@ header .ks-logo img {
 	-webkit-text-stroke: .14em var(--ks-white);
 	filter: drop-shadow(0 8px 14px rgba(150, 40, 85, .22));
 	font-family: var(--wp--preset--font-family--promo);
-	font-size: clamp(3.25rem, 15vw, 6.5rem);
+	font-size: clamp(1.6rem, 10.5vw, 6.5rem);
 	font-style: italic;
 	font-weight: 900;
 	letter-spacing: -.01em;
@@ -3663,4 +3663,42 @@ body.woocommerce-checkout .input-text {
 .woocommerce-checkout #customer_details input.input-text {
 	border-radius: 12px !important;
 	font-size: 1rem !important;
+}
+
+/* ==========================================================================
+   Kinesilk — Ajustes responsive (batch deploy): hero, badges, packs, tienda
+   ========================================================================== */
+
+/* Packs: boton contenido en la card (width:100% + margen lo desbordaba). */
+.ks-pcard .ks-pcard__btn {
+	width: auto !important;
+}
+
+/* Hero badges: nunca partir una palabra a la mitad. */
+.ks-badge__big,
+.ks-badge__small {
+	overflow-wrap: normal;
+	word-break: keep-all;
+	hyphens: none;
+}
+
+/* Hero titulo cyber: no partir "SEMANA" (hay un word-break:break-word heredado). */
+.is-style-ks-cyber-pink,
+.is-style-ks-cyber-yellow {
+	word-break: normal;
+	overflow-wrap: normal;
+	hyphens: none;
+}
+
+/* Tienda (bloques WooCommerce): imagen de producto a ancho completo de la card. */
+.ks-products .wc-block-components-product-image {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+@media (max-width: 600px) {
+	/* 3er badge del hero: un toque mas chico para que "DEPILACION" entre entero. */
+	.ks-badge:nth-child(3) .ks-badge__big {
+		font-size: clamp(.7rem, 3.2vw, 1.125rem);
+	}
 }
