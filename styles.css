@@ -1487,14 +1487,22 @@ header .ks-logo img {
 /* 17. Llamado a la acción final
    ========================================================================== */
 .ks-cta__card {
-	background:
-		radial-gradient(ellipse 80% 90% at 85% 10%, rgba(135, 233, 206, .55) 0%, rgba(135, 233, 206, 0) 60%),
-		radial-gradient(ellipse 70% 80% at 10% 100%, rgba(255, 189, 190, .7) 0%, rgba(255, 189, 190, 0) 60%),
-		var(--ks-white);
+	position: relative;
+	background: rgba(255, 255, 255, .5);
+	-webkit-backdrop-filter: blur(20px) saturate(160%);
+	backdrop-filter: blur(20px) saturate(160%);
+	border: 1px solid rgba(255, 255, 255, .55);
 	border-radius: 32px;
-	box-shadow: var(--ks-shadow-lg);
+	box-shadow:
+		0 16px 48px rgba(30, 43, 42, .14),
+		inset 0 1px 0 rgba(255, 255, 255, .65);
 	padding: clamp(2.5rem, 7vw, 5rem) 1.5rem;
 	text-align: center;
+}
+
+/* Fallback sin backdrop-filter: fondo mas solido para legibilidad. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.ks-cta__card { background: rgba(255, 255, 255, .85); }
 }
 
 .ks-cta__card > * {
@@ -3723,6 +3731,9 @@ body.woocommerce-checkout .input-text {
 	position: relative;
 	isolation: isolate;
 	overflow: clip;
+	background:
+		radial-gradient(ellipse 48% 48% at 71% 27%, rgba(135, 233, 206, .5) 0%, rgba(135, 233, 206, 0) 62%),
+		radial-gradient(ellipse 50% 52% at 27% 80%, rgba(255, 189, 190, .6) 0%, rgba(255, 189, 190, 0) 62%);
 }
 
 .ks-treatments::before, .ks-process::before, .ks-reviews::before, .ks-cta::before,
