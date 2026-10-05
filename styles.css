@@ -3705,3 +3705,129 @@ body.woocommerce-checkout .input-text {
 		font-size: clamp(.7rem, 3.2vw, 1.125rem);
 	}
 }
+
+/* ==========================================================================
+   Kinesilk — Blobs ambientales (fondo animado por seccion)
+   Movimiento continuo, lentisimo y organico. Solo transform/opacity (GPU).
+   Respeta prefers-reduced-motion. Colores de marca via --amb-1 / --amb-2 (RGB).
+   ========================================================================== */
+.ks-treatments { --amb-1: 135,233,206; --amb-2: 239,166,196; } /* mint / hero-pink */
+.ks-process    { --amb-1: 254,164,164; --amb-2: 135,233,206; } /* coral / mint */
+.ks-reviews    { --amb-1: 239,166,196; --amb-2: 255,194,46;  } /* hero-pink / amarillo */
+.ks-cta        { --amb-1: 135,233,206; --amb-2: 254,164,164; } /* mint / coral */
+
+.ks-treatments,
+.ks-process,
+.ks-reviews,
+.ks-cta {
+	position: relative;
+	isolation: isolate;
+	overflow: clip;
+}
+
+.ks-treatments::before, .ks-process::before, .ks-reviews::before, .ks-cta::before,
+.ks-treatments::after,  .ks-process::after,  .ks-reviews::after,  .ks-cta::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	pointer-events: none;
+	width: clamp(280px, 48vw, 600px);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	will-change: transform;
+}
+
+.ks-treatments::before, .ks-process::before, .ks-reviews::before, .ks-cta::before {
+	top: -8%;
+	left: -10%;
+	background: radial-gradient(circle at center, rgba(var(--amb-1), .5) 0%, rgba(var(--amb-1), 0) 68%);
+}
+
+.ks-treatments::after, .ks-process::after, .ks-reviews::after, .ks-cta::after {
+	bottom: -10%;
+	right: -8%;
+	background: radial-gradient(circle at center, rgba(var(--amb-2), .45) 0%, rgba(var(--amb-2), 0) 68%);
+}
+
+/* Movimiento continuo y lentisimo (cada mancha con su ritmo => flota organica). */
+@media (prefers-reduced-motion: no-preference) {
+	.ks-treatments::before, .ks-process::before, .ks-reviews::before, .ks-cta::before {
+		animation: ks-ambient-a 7s ease-in-out infinite;
+	}
+	.ks-treatments::after, .ks-process::after, .ks-reviews::after, .ks-cta::after {
+		animation: ks-ambient-b 9s ease-in-out -4s infinite;
+	}
+
+	@keyframes ks-ambient-a {
+		0%   { opacity: 0;  transform: translate3d(-12%, -8%, 0) scale(.8); }
+		50%  { opacity: .7; transform: translate3d(10%, 7%, 0) scale(1.2); }
+		100% { opacity: 0;  transform: translate3d(30%, 20%, 0) scale(1.4); }
+	}
+	@keyframes ks-ambient-b {
+		0%   { opacity: 0;  transform: translate3d(12%, 10%, 0) scale(1.35); }
+		50%  { opacity: .6; transform: translate3d(-8%, -5%, 0) scale(1.1); }
+		100% { opacity: 0;  transform: translate3d(-28%, -22%, 0) scale(.8); }
+	}
+}
+
+/* ==========================================================================
+   Kinesilk — Glass en cards de proceso (estilo iOS "liquid glass")
+   Fondo translucido + backdrop blur/saturate (frostea los blobs detras),
+   borde claro y highlight superior. Fallback: fondo blanco casi solido.
+   ========================================================================== */
+.ks-step {
+	background: rgba(255, 255, 255, .5);
+	border: 1px solid rgba(255, 255, 255, .55);
+	box-shadow:
+		0 10px 30px rgba(30, 43, 42, .10),
+		inset 0 1px 0 rgba(255, 255, 255, .65);
+	-webkit-backdrop-filter: blur(18px) saturate(150%);
+	backdrop-filter: blur(18px) saturate(150%);
+}
+
+/* Si el navegador no soporta backdrop-filter, fondo mas solido para legibilidad. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.ks-step {
+		background: rgba(255, 255, 255, .85);
+	}
+}
+
+/* ==========================================================================
+   Kinesilk — 3er blob ambiental por seccion (sobre .ks-title::before)
+   ========================================================================== */
+.ks-treatments { --amb-3: 254,164,164; } /* coral */
+.ks-process    { --amb-3: 239,166,196; } /* hero-pink */
+.ks-reviews    { --amb-3: 135,233,206; } /* mint */
+.ks-cta        { --amb-3: 239,166,196; } /* hero-pink */
+
+.ks-treatments .ks-title::before,
+.ks-process .ks-title::before,
+.ks-reviews .ks-title::before,
+.ks-cta .ks-title::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	pointer-events: none;
+	top: 8%;
+	left: 55%;
+	width: clamp(240px, 42vw, 520px);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: radial-gradient(circle at center, rgba(var(--amb-3), .42) 0%, rgba(var(--amb-3), 0) 68%);
+	will-change: transform, opacity;
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ks-treatments .ks-title::before,
+	.ks-process .ks-title::before,
+	.ks-reviews .ks-title::before,
+	.ks-cta .ks-title::before {
+		animation: ks-ambient-c 8.5s ease-in-out -6s infinite;
+	}
+	@keyframes ks-ambient-c {
+		0%   { opacity: 0;   transform: translate3d(0, -12%, 0) scale(.8); }
+		50%  { opacity: .55; transform: translate3d(-7%, 9%, 0) scale(1.18); }
+		100% { opacity: 0;   transform: translate3d(9%, 28%, 0) scale(1.45); }
+	}
+}
