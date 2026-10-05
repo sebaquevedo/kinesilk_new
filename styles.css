@@ -3690,8 +3690,11 @@ body.woocommerce-checkout .input-text {
 	hyphens: none;
 }
 
-/* Tienda (bloques WooCommerce): imagen de producto a ancho completo de la card. */
-.ks-products .wc-block-components-product-image {
+/* Cards de producto (bloques WooCommerce): imagen SIEMPRE a ancho completo de
+   la card — tienda, categoria, relacionados ("Tambien te puede interesar"),
+   upsells, etc. No afecta la imagen principal del producto (otra clase:
+   wp-block-woocommerce-product-image-gallery). */
+.wc-block-components-product-image {
 	padding-left: 0;
 	padding-right: 0;
 }
