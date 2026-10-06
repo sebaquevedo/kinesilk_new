@@ -4097,14 +4097,20 @@ body:not(.home)::after {
 /* Futuro: SOLO si hay envío (bloque de shipping presente), facturación + envío
    vuelven a 2 columnas en desktop. Sin envío queda full-width (arriba). */
 @media (min-width: 992px) {
-	.woocommerce-checkout #customer_details:has(.woocommerce-shipping-fields) {
+	.woocommerce-checkout #customer_details:has(.woocommerce-shipping-fields .form-row) {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 2.5rem;
 		align-items: start;
 	}
-	.woocommerce-checkout #customer_details:has(.woocommerce-shipping-fields) .col-1,
-	.woocommerce-checkout #customer_details:has(.woocommerce-shipping-fields) .col-2 {
+	.woocommerce-checkout #customer_details:has(.woocommerce-shipping-fields .form-row) .col-1,
+	.woocommerce-checkout #customer_details:has(.woocommerce-shipping-fields .form-row) .col-2 {
 		width: 100%;
 	}
+}
+
+/* No mostrar caja glass vacía: grupos de campos sin .form-row (ocultar). ocultar cajas glass vacias */
+.woocommerce-checkout .woocommerce-shipping-fields:not(:has(.form-row)),
+.woocommerce-checkout .woocommerce-additional-fields:not(:has(.form-row)) {
+	display: none;
 }
