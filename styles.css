@@ -3972,20 +3972,22 @@ body:not(.home)::after {
 	.woocommerce-cart .woocommerce-cart-form { background: rgba(255, 255, 255, .9); }
 }
 
-/* Los items dejan de ser cards individuales: transparentes, con divisor sutil. */
+/* Cada producto = panel suave y uniforme dentro del wrapper glass, bien separado. */
 .woocommerce-cart tr.cart_item {
-	background: transparent;
+	background: rgba(255, 255, 255, .42);
 	border: 0;
-	border-radius: 0;
-	box-shadow: none;
+	border-radius: 14px;
+	box-shadow:
+		0 2px 12px rgba(30, 43, 42, .05),
+		inset 0 0 0 1px rgba(255, 255, 255, .5);
 	-webkit-backdrop-filter: none;
 	backdrop-filter: none;
+	padding: .35rem 1.1rem .6rem;
+	margin: .7rem 0;
 }
 
-.woocommerce-cart tr.cart_item + tr.cart_item {
-	border-top: 1px solid rgba(30, 43, 42, .1);
-	margin-top: .5rem;
-	padding-top: .5rem;
+.woocommerce-cart tr.cart_item:first-of-type {
+	margin-top: .4rem;
 }
 
 /* Encabezado del carrito: titulo + link "Volver a servicios" en una fila. */
@@ -4036,4 +4038,14 @@ body:not(.home)::after {
 .woocommerce-cart table.cart tr.cart_item td,
 .woocommerce-cart .shop_table tr.cart_item td {
 	background-color: transparent;
+}
+
+/* Linea arriba de la X: es el border-top del cell product-remove -> eliminar. */
+.woocommerce-cart tr.cart_item td.product-remove {
+	border-top: 0;
+}
+
+/* Zebra en los paneles: items pares un poco mas opacos (distincion util). */
+.woocommerce-cart tr.cart_item:nth-child(even) {
+	background: rgba(255, 255, 255, .6);
 }
