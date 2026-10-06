@@ -3900,3 +3900,43 @@ body:not(.home)::after {
 		background: rgba(255, 255, 255, .9);
 	}
 }
+
+/* ==========================================================================
+   Kinesilk — Blobs detras de Cart/Checkout (para que el glass "se sienta").
+   Sin overflow:clip para no romper el position:sticky del #order_review.
+   ========================================================================== */
+.ks-cart {
+	--amb-1: 135,233,206; /* mint */
+	--amb-2: 239,166,196; /* hero-pink */
+	position: relative;
+	isolation: isolate;
+}
+
+.ks-cart::before,
+.ks-cart::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	pointer-events: none;
+	width: clamp(300px, 55vw, 620px);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	will-change: transform, opacity;
+}
+
+.ks-cart::before {
+	top: 4%;
+	right: 0;
+	background: radial-gradient(circle at center, rgba(var(--amb-1), .55) 0%, rgba(var(--amb-1), 0) 66%);
+}
+
+.ks-cart::after {
+	bottom: 6%;
+	left: 0;
+	background: radial-gradient(circle at center, rgba(var(--amb-2), .5) 0%, rgba(var(--amb-2), 0) 66%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ks-cart::before { animation: ks-ambient-a 8s ease-in-out infinite; }
+	.ks-cart::after  { animation: ks-ambient-b 10s ease-in-out -4s infinite; }
+}
