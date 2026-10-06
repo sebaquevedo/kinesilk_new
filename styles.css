@@ -3131,9 +3131,9 @@ select.orderby {
 
 .ks-filter-toggle__icon {
 	background:
-		linear-gradient(var(--ks-ink), var(--ks-ink)) center/14px 2px no-repeat,
-		linear-gradient(var(--ks-ink), var(--ks-ink)) center 5px/10px 2px no-repeat,
-		linear-gradient(var(--ks-ink), var(--ks-ink)) center -5px/18px 2px no-repeat;
+		linear-gradient(var(--ks-ink), var(--ks-ink)) left top/18px 2px no-repeat,
+		linear-gradient(var(--ks-ink), var(--ks-ink)) left center/13px 2px no-repeat,
+		linear-gradient(var(--ks-ink), var(--ks-ink)) left bottom/8px 2px no-repeat;
 	height: 14px;
 	width: 18px;
 }
