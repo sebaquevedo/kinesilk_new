@@ -3952,8 +3952,8 @@ body:not(.home)::after {
 	max-width: 100%;
 }
 
-/* Glass en cada card de producto del carrito (mismo material que el CTA). */
-.woocommerce-cart tr.cart_item {
+/* Glass en el WRAPPER completo de los productos del carrito (una sola card). */
+.woocommerce-cart .woocommerce-cart-form {
 	background: rgba(255, 255, 255, .62);
 	-webkit-backdrop-filter: blur(20px) saturate(160%);
 	backdrop-filter: blur(20px) saturate(160%);
@@ -3962,12 +3962,30 @@ body:not(.home)::after {
 	box-shadow:
 		0 16px 48px rgba(30, 43, 42, .14),
 		inset 0 1px 0 rgba(255, 255, 255, .65);
-	padding: .5rem 1.25rem;
-	margin-bottom: 1rem;
+	box-sizing: border-box;
+	max-width: 100%;
+	padding: .5rem 1.5rem 1.5rem;
+	margin-bottom: 1.5rem;
 }
 
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-	.woocommerce-cart tr.cart_item { background: rgba(255, 255, 255, .9); }
+	.woocommerce-cart .woocommerce-cart-form { background: rgba(255, 255, 255, .9); }
+}
+
+/* Los items dejan de ser cards individuales: transparentes, con divisor sutil. */
+.woocommerce-cart tr.cart_item {
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	-webkit-backdrop-filter: none;
+	backdrop-filter: none;
+}
+
+.woocommerce-cart tr.cart_item + tr.cart_item {
+	border-top: 1px solid rgba(30, 43, 42, .1);
+	margin-top: .5rem;
+	padding-top: .5rem;
 }
 
 /* Encabezado del carrito: titulo + link "Volver a servicios" en una fila. */
