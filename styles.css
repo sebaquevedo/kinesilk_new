@@ -1488,10 +1488,10 @@ header .ks-logo img {
    ========================================================================== */
 .ks-cta__card {
 	position: relative;
-	background: rgba(255, 255, 255, .5);
+	background: rgba(255, 255, 255, .62);
 	-webkit-backdrop-filter: blur(20px) saturate(160%);
 	backdrop-filter: blur(20px) saturate(160%);
-	border: 1px solid rgba(255, 255, 255, .55);
+	border: 1.5px solid rgba(255, 255, 255, .72);
 	border-radius: 32px;
 	box-shadow:
 		0 16px 48px rgba(30, 43, 42, .14),
@@ -3270,7 +3270,7 @@ select.orderby {
 		-webkit-backdrop-filter: blur(16px) saturate(150%);
 		backdrop-filter: blur(16px) saturate(150%);
 		background: rgba(255, 255, 255, .28);
-		border: 1px solid rgba(255, 255, 255, .55);
+		border: 1.5px solid rgba(255, 255, 255, .72);
 		border-radius: 20px;
 		box-shadow: 0 18px 48px -26px rgba(30, 43, 42, .55);
 	}
@@ -3787,8 +3787,8 @@ body.woocommerce-checkout .input-text {
    borde claro y highlight superior. Fallback: fondo blanco casi solido.
    ========================================================================== */
 .ks-step {
-	background: rgba(255, 255, 255, .5);
-	border: 1px solid rgba(255, 255, 255, .55);
+	background: rgba(255, 255, 255, .62);
+	border: 1.5px solid rgba(255, 255, 255, .72);
 	box-shadow:
 		0 10px 30px rgba(30, 43, 42, .10),
 		inset 0 1px 0 rgba(255, 255, 255, .65);
@@ -3840,5 +3840,63 @@ body.woocommerce-checkout .input-text {
 		0%   { opacity: 0;   transform: translate3d(0, -12%, 0) scale(.8); }
 		50%  { opacity: .55; transform: translate3d(-7%, 9%, 0) scale(1.18); }
 		100% { opacity: 0;   transform: translate3d(9%, 28%, 0) scale(1.45); }
+	}
+}
+
+/* ==========================================================================
+   Kinesilk — Blobs ambientales globales (todas las paginas menos la home,
+   que ya tiene los suyos por seccion). Fixed = fondo ambiental calmo.
+   ========================================================================== */
+body:not(.home) { --amb-1: 135,233,206; --amb-2: 239,166,196; } /* mint / hero-pink */
+
+body:not(.home)::before,
+body:not(.home)::after {
+	content: "";
+	position: fixed;
+	z-index: -1;
+	pointer-events: none;
+	width: clamp(320px, 52vw, 700px);
+	aspect-ratio: 1;
+	border-radius: 50%;
+	will-change: transform, opacity;
+}
+
+body:not(.home)::before {
+	top: -12%;
+	left: -10%;
+	background: radial-gradient(circle at center, rgba(var(--amb-1), .4) 0%, rgba(var(--amb-1), 0) 68%);
+}
+
+body:not(.home)::after {
+	bottom: -14%;
+	right: -10%;
+	background: radial-gradient(circle at center, rgba(var(--amb-2), .4) 0%, rgba(var(--amb-2), 0) 68%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	body:not(.home)::before { animation: ks-ambient-a 10s ease-in-out infinite; }
+	body:not(.home)::after  { animation: ks-ambient-b 13s ease-in-out -6s infinite; }
+}
+
+/* ==========================================================================
+   Kinesilk — Glass en cajas de Cart/Checkout (resumen de pedido y totales)
+   ========================================================================== */
+.woocommerce-cart .cart_totals,
+.woocommerce-checkout #order_review {
+	background: rgba(255, 255, 255, .62);
+	-webkit-backdrop-filter: blur(18px) saturate(150%);
+	backdrop-filter: blur(18px) saturate(150%);
+	border: 1.5px solid rgba(255, 255, 255, .72);
+	border-radius: 18px;
+	box-shadow:
+		0 12px 36px rgba(30, 43, 42, .12),
+		inset 0 1px 0 rgba(255, 255, 255, .65);
+	padding: 1.5rem;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.woocommerce-cart .cart_totals,
+	.woocommerce-checkout #order_review {
+		background: rgba(255, 255, 255, .9);
 	}
 }
