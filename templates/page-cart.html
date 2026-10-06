@@ -1,7 +1,13 @@
 <!-- wp:template-part {"slug":"header","tagName":"header","className":"ks-header"} /-->
 <!-- wp:group {"tagName":"main","className":"ks-main","layout":{"type":"default"}} -->
 <main class="wp-block-group ks-main"><!-- wp:group {"tagName":"section","className":"ks-section ks-cart","layout":{"type":"constrained"}} -->
-<section class="wp-block-group ks-section ks-cart"><!-- wp:post-title {"level":1,"className":"ks-title"} /-->
+<section class="wp-block-group ks-section ks-cart"><!-- wp:group {"className":"ks-cart__head","layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
+<div class="wp-block-group ks-cart__head"><!-- wp:post-title {"level":1,"className":"ks-title"} /-->
+
+<!-- wp:paragraph {"className":"ks-cart__back"} -->
+<p class="ks-cart__back"><a href="/servicios/">← Volver a servicios</a></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 <!-- wp:post-content {"className":"ks-page-content","layout":{"type":"constrained"}} /--></section>
 <!-- /wp:group --></main>
 <!-- /wp:group -->
