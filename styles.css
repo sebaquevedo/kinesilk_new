@@ -4030,3 +4030,10 @@ body:not(.home)::after {
 	border-radius: 0;
 	background: transparent;
 }
+
+/* Quita el rayado zebra de WooCommerce en los items del carrito (filas pares
+   tenian un fondo rgba(0,0,0,.024) que con el glass hacia ver distinto el 2do). */
+.woocommerce-cart table.cart tr.cart_item td,
+.woocommerce-cart .shop_table tr.cart_item td {
+	background-color: transparent;
+}
