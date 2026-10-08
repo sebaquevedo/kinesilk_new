@@ -433,3 +433,123 @@ add_filter(
 		return str_replace( 'href="' . esc_url( $link ) . '"', 'href="' . esc_url( $link ) . '" aria-current="page"', $content );
 	}
 );
+
+
+/**
+ * SEO — Datos estructurados (schema.org) para posicionamiento local en Google
+ * y descubrimiento por IA (Claude, ChatGPT, Gemini). Emite JSON-LD en el <head>.
+ */
+function kinesilk_schema_jsonld() {
+	if ( is_admin() ) {
+		return;
+	}
+
+	$home = home_url( '/' );
+	$logo = get_theme_file_uri( 'assets/images/logo-kinesilk-ink.png' );
+
+	$business = array(
+		'@type'       => array( 'HealthAndBeautyBusiness', 'MedicalBusiness' ),
+		'@id'         => $home . '#business',
+		'name'        => 'Kinesilk',
+		'description' => 'Centro de estetica laser en Punta Arenas: depilacion laser facial y corporal, despigmentacion, eliminacion de tatuajes y rejuvenecimiento facial (Hollywood Peel).',
+		'url'         => $home,
+		'logo'        => $logo,
+		'image'       => $logo,
+		'telephone'   => '+56 9 8752 4346',
+		'email'       => 'contactokinesilk@gmail.com',
+		'priceRange'  => '$$',
+		'currenciesAccepted' => 'CLP',
+		'address'     => array(
+			'@type'           => 'PostalAddress',
+			'streetAddress'   => 'Gral. Juan Salvo 0183',
+			'addressLocality' => 'Punta Arenas',
+			'addressRegion'   => 'Magallanes y la Antartica Chilena',
+			'postalCode'      => '6200000',
+			'addressCountry'  => 'CL',
+		),
+		'areaServed'  => array( '@type' => 'City', 'name' => 'Punta Arenas' ),
+		'sameAs'      => array( 'https://www.instagram.com/kinesilk/' ),
+		'openingHoursSpecification' => array(
+			array(
+				'@type'     => 'OpeningHoursSpecification',
+				'dayOfWeek' => array( 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday' ),
+				'opens'     => '09:00',
+				'closes'    => '19:00',
+			),
+			array(
+				'@type'     => 'OpeningHoursSpecification',
+				'dayOfWeek' => 'Saturday',
+				'opens'     => '09:00',
+				'closes'    => '14:00',
+			),
+		),
+		'hasOfferCatalog' => array(
+			'@type' => 'OfferCatalog',
+			'name'  => 'Tratamientos de estetica laser',
+			'itemListElement' => array(
+				array( '@type' => 'Offer', 'itemOffered' => array( '@type' => 'Service', 'name' => 'Depilacion laser', 'areaServed' => 'Punta Arenas' ) ),
+				array( '@type' => 'Offer', 'itemOffered' => array( '@type' => 'Service', 'name' => 'Despigmentacion laser', 'areaServed' => 'Punta Arenas' ) ),
+				array( '@type' => 'Offer', 'itemOffered' => array( '@type' => 'Service', 'name' => 'Eliminacion de tatuajes con laser', 'areaServed' => 'Punta Arenas' ) ),
+				array( '@type' => 'Offer', 'itemOffered' => array( '@type' => 'Service', 'name' => 'Rejuvenecimiento facial (Hollywood Peel)', 'areaServed' => 'Punta Arenas' ) ),
+			),
+		),
+	);
+
+	$website = array(
+		'@type'     => 'WebSite',
+		'@id'       => $home . '#website',
+		'url'       => $home,
+		'name'      => 'Kinesilk',
+		'publisher' => array( '@id' => $home . '#business' ),
+		'inLanguage' => 'es-CL',
+	);
+
+	$graph = array( $business, $website );
+
+	// FAQPage solo en la pagina de Contacto (donde se renderiza el FAQ).
+	if ( is_page( 'contacto' ) ) {
+		$faqs = array(
+			array( 'La depilacion laser duele?', 'La mayoria de las personas la describen como una sensacion de calor o pequenos golpecitos. Es rapida, segura y bien tolerada.' ),
+			array( 'Cuantas sesiones de depilacion laser necesito?', 'Entre 6 y 10 sesiones segun la zona, tipo de piel y tipo de vello.' ),
+			array( 'La depilacion laser es definitiva?', 'Reduce el vello entre un 80% y 95% de manera permanente; luego se recomiendan mantenciones ocasionales.' ),
+			array( 'Puedo depilarme si estoy bronceada?', 'Si, pero recomendamos esperar 7 a 10 dias despues de una exposicion solar intensa.' ),
+			array( 'Que es el Hollywood Peel?', 'Un peeling laser donde se aplica carbon activado sobre la piel; al aplicar el laser genera luminosidad, afina poros y mejora la textura sin dolor ni tiempo de recuperacion.' ),
+			array( 'Que es la despigmentacion laser?', 'Un tratamiento que usa energia laser para aclarar manchas, equilibrar la melanina y mejorar el tono de la piel. Ideal para melasma, lentigos solares, manchas por edad y dano solar.' ),
+			array( 'El melasma se puede tratar con laser?', 'Si. El laser ayuda a regular la melanina y reducir la pigmentacion; el melasma es cronico, por lo que se recomienda mantencion y protector solar diario.' ),
+			array( 'Realizan borrado de tatuajes?', 'Si. Eliminamos o atenuamos tatuajes con laser de forma segura y precisa, sesion a sesion.' ),
+			array( 'Atienden hombres y mujeres?', 'Si, atendemos a hombres y mujeres con tratamientos adaptados a cada tipo de piel y vello.' ),
+			array( 'Como puedo agendar una cita?', 'Puedes agendar por WhatsApp al +56 9 8752 4346. La evaluacion inicial es gratuita.' ),
+		);
+		$main = array();
+		foreach ( $faqs as $f ) {
+			$main[] = array(
+				'@type'          => 'Question',
+				'name'           => $f[0],
+				'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $f[1] ),
+			);
+		}
+		$graph[] = array(
+			'@type'      => 'FAQPage',
+			'@id'        => $home . '#faq',
+			'mainEntity' => $main,
+		);
+	}
+
+	$data = array( '@context' => 'https://schema.org', '@graph' => $graph );
+
+	echo "\n" . '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+}
+add_action( 'wp_head', 'kinesilk_schema_jsonld', 20 );
+
+/**
+ * SEO — noindex en paginas funcionales (carrito, checkout, mi cuenta) para que
+ * no compitan en buscadores.
+ */
+function kinesilk_noindex_functional( $robots ) {
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() || is_account_page() ) ) {
+		$robots['noindex']  = true;
+		$robots['follow']   = true;
+	}
+	return $robots;
+}
+add_filter( 'wp_robots', 'kinesilk_noindex_functional' );
