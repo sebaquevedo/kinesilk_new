@@ -1727,7 +1727,18 @@ header .ks-logo img {
 	opacity: 1;
 }
 
+/* El wrapper de insignias solo se agrega a productos CON badge (oferta,
+   destacado, nuevo o agotado). Al ser una caja de bloque, rompia el
+   estiramiento flex de la imagen, asi que esas tarjetas mostraban la imagen
+   en su tamano natural en vez de llenar la tarjeta. display:contents disuelve
+   la caja del wrapper: el bloque de imagen vuelve a ser hijo directo flex de
+   la tarjeta y se estira igual que el resto. El overlay de insignias
+   (absoluto) se ancla a la tarjeta .wc-block-product de abajo. */
 .ks-product-media {
+	display: contents;
+}
+
+.wc-block-product {
 	position: relative;
 }
 
