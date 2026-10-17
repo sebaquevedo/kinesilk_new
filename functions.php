@@ -506,34 +506,9 @@ function kinesilk_schema_jsonld() {
 
 	$graph = array( $business, $website );
 
-	// FAQPage solo en la pagina de Contacto (donde se renderiza el FAQ).
-	if ( is_page( 'contacto' ) ) {
-		$faqs = array(
-			array( 'La depilacion laser duele?', 'La mayoria de las personas la describen como una sensacion de calor o pequenos golpecitos. Es rapida, segura y bien tolerada.' ),
-			array( 'Cuantas sesiones de depilacion laser necesito?', 'Entre 6 y 10 sesiones segun la zona, tipo de piel y tipo de vello.' ),
-			array( 'La depilacion laser es definitiva?', 'Reduce el vello entre un 80% y 95% de manera permanente; luego se recomiendan mantenciones ocasionales.' ),
-			array( 'Puedo depilarme si estoy bronceada?', 'Si, pero recomendamos esperar 7 a 10 dias despues de una exposicion solar intensa.' ),
-			array( 'Que es el Hollywood Peel?', 'Un peeling laser donde se aplica carbon activado sobre la piel; al aplicar el laser genera luminosidad, afina poros y mejora la textura sin dolor ni tiempo de recuperacion.' ),
-			array( 'Que es la despigmentacion laser?', 'Un tratamiento que usa energia laser para aclarar manchas, equilibrar la melanina y mejorar el tono de la piel. Ideal para melasma, lentigos solares, manchas por edad y dano solar.' ),
-			array( 'El melasma se puede tratar con laser?', 'Si. El laser ayuda a regular la melanina y reducir la pigmentacion; el melasma es cronico, por lo que se recomienda mantencion y protector solar diario.' ),
-			array( 'Realizan borrado de tatuajes?', 'Si. Eliminamos o atenuamos tatuajes con laser de forma segura y precisa, sesion a sesion.' ),
-			array( 'Atienden hombres y mujeres?', 'Si, atendemos a hombres y mujeres con tratamientos adaptados a cada tipo de piel y vello.' ),
-			array( 'Como puedo agendar una cita?', 'Puedes agendar por WhatsApp al +56 9 8752 4346. La evaluacion inicial es gratuita.' ),
-		);
-		$main = array();
-		foreach ( $faqs as $f ) {
-			$main[] = array(
-				'@type'          => 'Question',
-				'name'           => $f[0],
-				'acceptedAnswer' => array( '@type' => 'Answer', 'text' => $f[1] ),
-			);
-		}
-		$graph[] = array(
-			'@type'      => 'FAQPage',
-			'@id'        => $home . '#faq',
-			'mainEntity' => $main,
-		);
-	}
+	// FAQPage schema is emitted by Content Studio (complete and auto-maintained
+	// from the rendered FAQ). The theme no longer hand-rolls it here, to avoid a
+	// duplicate, drifting schema — the theme renders the FAQ, the plugin owns SEO.
 
 	$data = array( '@context' => 'https://schema.org', '@graph' => $graph );
 
