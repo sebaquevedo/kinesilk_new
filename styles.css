@@ -4125,3 +4125,25 @@ body:not(.home)::after {
 .woocommerce-checkout .woocommerce-additional-fields:not(:has(.form-row)) {
 	display: none;
 }
+
+
+/* ==========================================================================
+   Kinesilk — Fix contraste: hover sobre un pill de categoria YA activo (T48)
+   El hover generico de .ks-cats ponia fondo blanco sin cambiar el color del
+   texto, dejando el texto cream del estado activo ilegible. Mantenemos el
+   look activo (fondo ink + texto cream) tambien en hover.
+   ========================================================================== */
+.ks-cats .wc-block-product-categories-list-item a[aria-current]:hover,
+.ks-cats .wc-block-product-categories-list-item.is-current a:hover {
+	background: var(--ks-ink);
+	border-color: var(--ks-ink);
+	color: var(--ks-cream);
+}
+
+/* Subcats: el estado activo debe usar texto ink sobre coral (el cream se
+   filtraba de una regla previa y daba bajo contraste). */
+.ks-subcats a[aria-current],
+.ks-subcats a[aria-current="page"],
+.ks-subcats a[aria-current]:hover {
+	color: var(--ks-ink);
+}
