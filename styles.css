@@ -4451,8 +4451,12 @@ html.has-modal-open .wc-block-components-product-image-gallery__dialog-trigger {
    El bloque de imagen traia padding lateral (~0.8rem) que dejaba la foto
    insertada y chica. La llevamos a ancho completo, con cover para que llene.
    ========================================================================== */
-.wc-block-components-product-image {
+.wc-block-components-product-image,
+.ks-product-media {
 	padding: 0 !important;
+}
+
+.wc-block-components-product-image {
 	margin: 0 0 1rem;
 }
 .wc-block-components-product-image > a {
