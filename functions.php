@@ -39,6 +39,14 @@ function kinesilk_enqueue() {
 		wp_enqueue_script( 'kinesilk-cart-fx', get_theme_file_uri( 'assets/js/cart-fx.js' ), array( 'jquery' ), $ver, true );
 		wp_enqueue_script( 'kinesilk-card-qty', get_theme_file_uri( 'assets/js/card-qty.js' ), array( 'jquery' ), $ver, true );
 	}
+
+	if ( is_front_page() ) {
+		wp_enqueue_script( 'canvas-confetti', get_theme_file_uri( 'assets/js/confetti.browser.min.js' ), array(), '1.9.3', true );
+		wp_enqueue_script( 'tsparticles', get_theme_file_uri( 'assets/js/tsparticles.bundle.min.js' ), array(), '2.12.0', true );
+		$hero_js  = get_theme_file_path( 'assets/js/hero-aniversario.js' );
+		$hero_ver = file_exists( $hero_js ) ? filemtime( $hero_js ) : $ver;
+		wp_enqueue_script( 'kinesilk-hero-aniv', get_theme_file_uri( 'assets/js/hero-aniversario.js' ), array( 'canvas-confetti', 'tsparticles' ), $hero_ver, true );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'kinesilk_enqueue' );
 
@@ -528,3 +536,22 @@ function kinesilk_noindex_functional( $robots ) {
 	return $robots;
 }
 add_filter( 'wp_robots', 'kinesilk_noindex_functional' );
+
+/**
+ * Hero video: respetar prefers-reduced-motion (pausar y mostrar poster).
+ */
+add_action( 'wp_footer', function () {
+	?>
+<script>
+(function(){
+	if ( window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches ) {
+		document.querySelectorAll('.ks-hero__video, .ks-hero-video video').forEach(function(v){
+			v.removeAttribute('autoplay');
+			try { v.pause(); } catch (e) {}
+		});
+	}
+})();
+</script>
+	<?php
+}, 99 );
+

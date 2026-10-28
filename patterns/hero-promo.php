@@ -13,13 +13,13 @@
 <!-- /wp:heading -->
 <!-- wp:group {"className":"ks-cyber","layout":{"type":"default"}} -->
 <div class="wp-block-group ks-cyber"><!-- wp:paragraph {"className":"is-style-ks-cyber-pink"} -->
-<p class="is-style-ks-cyber-pink">Semana</p>
+<p class="is-style-ks-cyber-pink">Aniversario</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"is-style-ks-cyber-yellow"} -->
-<p class="is-style-ks-cyber-yellow">Cyber</p>
+<p class="is-style-ks-cyber-yellow">Kinesilk</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"is-style-ks-ribbon"} -->
-<p class="is-style-ks-ribbon">Descuentos imperdibles</p>
+<p class="is-style-ks-ribbon">Ofertas de aniversario</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:paragraph {"className":"ks-hero__subtitle"} -->
@@ -31,7 +31,7 @@
 <p class="ks-badge__small">Hasta</p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"className":"ks-badge__big"} -->
-<p class="ks-badge__big">40% OFF</p>
+<p class="ks-badge__big">30% OFF</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"className":"ks-badge ks-badge--sun","layout":{"type":"default"}} -->

@@ -7,7 +7,7 @@
  * Post Types: page
  */
 ?>
-<!-- wp:pattern {"slug":"kinesilk/hero-promo"} /-->
+<!-- wp:pattern {"slug":"kinesilk/hero-video"} /-->
 <!-- wp:pattern {"slug":"kinesilk/carruseles-inicio"} /-->
 <!-- wp:pattern {"slug":"kinesilk/packs"} /-->
 <!-- wp:pattern {"slug":"kinesilk/tratamientos"} /-->
