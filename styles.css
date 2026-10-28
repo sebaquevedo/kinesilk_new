@@ -4444,3 +4444,27 @@ html.has-modal-open .woocommerce-product-gallery__trigger,
 html.has-modal-open .wc-block-components-product-image-gallery__dialog-trigger {
 	display: none !important;
 }
+
+
+/* ==========================================================================
+   Kinesilk - Imagen de producto a ancho completo del card (T61)
+   El bloque de imagen traia padding lateral (~0.8rem) que dejaba la foto
+   insertada y chica. La llevamos a ancho completo, con cover para que llene.
+   ========================================================================== */
+.wc-block-components-product-image {
+	padding: 0 !important;
+	margin: 0 0 1rem;
+}
+.wc-block-components-product-image > a {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+}
+.wc-block-components-product-image > a img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transform: scale(1.08);
+	transform-origin: top left;
+}
