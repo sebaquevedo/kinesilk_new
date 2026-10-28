@@ -58,7 +58,7 @@
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
 <!-- wp:paragraph {"className":"ks-footer__legal"} -->
-<p class="ks-footer__legal">© Kinesilk · Centro de estética láser en Punta Arenas</p>
+<p class="ks-footer__legal">© Kinesilk · Centro de estética láser en Punta Arenas · <a href="/informacion-legal/">Información legal</a></p>
 <!-- /wp:paragraph -->
 <!-- wp:paragraph {"align":"center","className":"ks-footer__credit"} -->
 <p class="has-text-align-center ks-footer__credit">Desarrollado con <span class="ks-heart" aria-hidden="true">♥</span><span class="screen-reader-text">amor</span> por <a href="https://devconcept.cl" target="_blank" rel="noreferrer noopener">DevConcept.cl</a></p>
