@@ -2004,8 +2004,8 @@ a:hover .wc-block-components-product-sale-badge {
 
 	.wp-block-social-links.ks-floating-cta {
 		bottom: 1.5rem;
-		left: auto;
-		right: 1.5rem;
+		left: 1.5rem;
+		right: auto;
 	}
 
 	.ks-floating-cta .wp-social-link {
@@ -4472,3 +4472,206 @@ html.has-modal-open .wc-block-components-product-image-gallery__dialog-trigger {
 	transform: scale(1.08);
 	transform-origin: top left;
 }
+
+
+/* ==========================================================================
+   Selector de sesiones en el card (T62)
+   ========================================================================== */
+.ks-sel { display: flex; flex-direction: column; gap: .7rem; margin-top: .4rem; }
+.ks-sel, .ks-sel * { box-sizing: border-box; }
+.ks-sel [hidden] { display: none !important; }
+.ks-sel__pills { display: flex; gap: .5rem; }
+.ks-sel__pill {
+	flex: 1;
+	position: relative;
+	background: var(--ks-white);
+	border: 1.5px solid rgba(30, 43, 42, .16);
+	border-radius: var(--ks-radius-sm);
+	color: var(--ks-ink);
+	cursor: pointer;
+	font-family: inherit;
+	padding: .55rem .4rem .5rem;
+	text-align: center;
+	transition: border-color .15s, background .15s, transform .08s;
+}
+.ks-sel__pill:hover { border-color: var(--ks-coral); }
+.ks-sel__pill:active { transform: translateY(1px); }
+.ks-sel__pill[aria-pressed="true"] { border-color: var(--ks-coral); background: rgba(254, 164, 164, .16); }
+.ks-sel__pill:focus-visible { outline: 2px solid var(--ks-ink); outline-offset: 2px; }
+.ks-sel__pilln { display: block; font-family: var(--wp--preset--font-family--heading, inherit); font-weight: 700; font-size: .95rem; }
+.ks-sel__pillh { display: block; font-size: .78rem; color: var(--ks-ink-soft); margin-top: .1rem; }
+.ks-sel__tag {
+	position: absolute;
+	top: -9px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--ks-mint);
+	color: var(--ks-ink);
+	font-family: var(--wp--preset--font-family--heading, inherit);
+	font-size: .58rem;
+	font-weight: 700;
+	letter-spacing: .06em;
+	text-transform: uppercase;
+	padding: .12rem .45rem;
+	border-radius: 7px;
+	white-space: nowrap;
+}
+.ks-sel__price { display: flex; flex-direction: column; gap: .14rem; }
+.ks-sel__prow { display: flex; align-items: baseline; gap: .5rem; flex-wrap: wrap; }
+.ks-sel__off { background: var(--ks-promo-pink); color: var(--ks-white); font-weight: 700; font-size: .72rem; padding: .1rem .4rem; border-radius: 6px; }
+.ks-sel__was { color: var(--ks-ink-soft); text-decoration: line-through; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.ks-sel__now { font-family: var(--wp--preset--font-family--heading, inherit); font-weight: 700; font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.ks-sel__unit { color: var(--ks-ink-soft); font-size: .82rem; }
+.ks-sel__unit b { color: var(--ks-promo-pink); font-weight: 600; }
+.ks-sel__cta {
+	background: var(--ks-ink);
+	border-radius: 999px;
+	color: var(--ks-cream);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: var(--wp--preset--font-size--medium);
+	font-weight: 600;
+	min-height: 48px;
+	padding: .5rem 1rem;
+	text-align: center;
+	text-decoration: none;
+	transition: background .15s, color .15s, transform .08s;
+	width: 100%;
+	font-variant-numeric: tabular-nums;
+}
+.ks-sel__cta:hover { background: var(--ks-coral); color: var(--ks-ink); text-decoration: none; }
+.ks-sel__cta:active { transform: translateY(1px); }
+.ks-sel__cta.is-added { background: var(--ks-mint); color: var(--ks-ink); }
+@media (prefers-reduced-motion: reduce) { .ks-sel__pill, .ks-sel__cta { transition: none; } }
+
+
+/* ==========================================================================
+   Paginación del catálogo — pills + leyenda "Página X de Y" (T63)
+   ========================================================================== */
+.ks-pg-caption {
+	color: var(--ks-ink-soft);
+	font-family: var(--wp--preset--font-family--heading);
+	font-size: .82rem;
+	font-weight: 600;
+	letter-spacing: .04em;
+	margin: 0 0 1rem;
+	text-align: center;
+	width: 100%;
+}
+.ks-pg-caption b { color: var(--ks-ink); font-weight: 700; }
+
+.wp-block-query-pagination {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: .4rem;
+	justify-content: center;
+}
+.wp-block-query-pagination.ks-pagination--top { margin: 0 0 1.75rem; }
+/* Aire entre la galería y la paginación de abajo (T63b) */
+.wc-block-product-template + .ks-pg-caption { margin-top: clamp(1.75rem, 6vw, 2.5rem); }
+
+
+.wp-block-query-pagination .page-numbers,
+.wp-block-query-pagination-previous,
+.wp-block-query-pagination-next {
+	align-items: center;
+	background: var(--ks-white);
+	border: 1.5px solid rgba(30, 43, 42, .15);
+	border-radius: 999px;
+	box-sizing: border-box;
+	color: var(--ks-ink);
+	display: inline-flex;
+	font-family: var(--wp--preset--font-family--heading);
+	font-variant-numeric: tabular-nums;
+	font-weight: 600;
+	height: 42px;
+	justify-content: center;
+	line-height: 1;
+	min-width: 42px;
+	padding: 0 .5rem;
+	text-decoration: none;
+	transition: background-color .15s ease, border-color .15s ease, color .15s ease, transform .08s ease;
+}
+.wp-block-query-pagination .page-numbers:hover:not(.current):not(.dots),
+.wp-block-query-pagination-previous:hover,
+.wp-block-query-pagination-next:hover {
+	background: var(--ks-mint);
+	border-color: var(--ks-mint);
+	color: var(--ks-ink);
+}
+.wp-block-query-pagination .page-numbers.current {
+	background: var(--ks-coral);
+	border-color: var(--ks-coral);
+	box-shadow: 0 8px 18px -10px rgba(217, 99, 95, .8);
+	color: var(--ks-ink);
+	font-weight: 700;
+}
+.wp-block-query-pagination .page-numbers.dots {
+	background: transparent;
+	border-color: transparent;
+	color: var(--ks-ink-soft);
+	min-width: 24px;
+}
+.wp-block-query-pagination-previous,
+.wp-block-query-pagination-next { padding: 0 1.1rem; }
+.wp-block-query-pagination-previous::before { content: "\2039"; font-size: 1.15rem; margin-right: .4rem; }
+.wp-block-query-pagination-next::after { content: "\203A"; font-size: 1.15rem; margin-left: .4rem; }
+.wp-block-query-pagination .page-numbers:active,
+.wp-block-query-pagination-previous:active,
+.wp-block-query-pagination-next:active { transform: translateY(1px); }
+.wp-block-query-pagination-previous:focus-visible,
+.wp-block-query-pagination-next:focus-visible,
+.wp-block-query-pagination .page-numbers:focus-visible { outline: 2px solid var(--ks-coral); outline-offset: 2px; }
+
+
+/* ==========================================================================
+   Buscador del catálogo (T64)
+   ========================================================================== */
+.ks-shop-search {
+	align-items: center;
+	background: var(--ks-white);
+	border: 1.5px solid rgba(30, 43, 42, .15);
+	border-radius: 999px;
+	box-sizing: border-box;
+	display: flex;
+	gap: .5rem;
+	margin: 0 auto 1.6rem;
+	max-width: 560px;
+	padding: .3rem .3rem .3rem 1.1rem;
+	width: 100%;
+}
+.ks-shop-search:focus-within { border-color: var(--ks-coral); }
+.ks-shop-search__icon { color: var(--ks-ink-soft); flex: 0 0 auto; }
+.ks-shop-search__input {
+	background: transparent;
+	border: 0;
+	color: var(--ks-ink);
+	flex: 1;
+	font-family: inherit;
+	font-size: 1rem;
+	min-width: 0;
+	outline: none;
+	padding: .55rem 0;
+}
+.ks-shop-search__input::placeholder { color: var(--ks-ink-soft); }
+.ks-shop-search__btn {
+	background: var(--ks-ink);
+	border: 0;
+	border-radius: 999px;
+	box-sizing: border-box;
+	color: var(--ks-cream);
+	cursor: pointer;
+	flex: 0 0 auto;
+	font-family: var(--wp--preset--font-family--heading);
+	font-weight: 600;
+	min-height: 42px;
+	padding: 0 1.4rem;
+	transition: background-color .15s ease, color .15s ease;
+}
+.ks-shop-search__btn:hover { background: var(--ks-coral); color: var(--ks-ink); }
+.ks-shop-search__btn:focus-visible { outline: 2px solid var(--ks-coral); outline-offset: 2px; }
+
+/* Buscador dinámico: atenuar la grilla mientras carga (T64b) */
+.ks-shop-main.is-loading { opacity: .5; pointer-events: none; transition: opacity .15s ease; }

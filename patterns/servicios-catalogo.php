@@ -23,6 +23,14 @@
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
 
+<!-- wp:html -->
+<form role="search" method="get" class="ks-shop-search" action="<?php echo esc_url( home_url( '/servicios/' ) ); ?>">
+	<svg class="ks-shop-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+	<input type="search" name="buscar" class="ks-shop-search__input" placeholder="Buscar un tratamiento…" value="<?php echo esc_attr( isset( $_GET['buscar'] ) ? wp_unslash( $_GET['buscar'] ) : '' ); ?>" aria-label="Buscar productos">
+	<button type="submit" class="ks-shop-search__btn">Buscar</button>
+</form>
+<!-- /wp:html -->
+
 <!-- wp:columns {"align":"wide","className":"ks-shop-layout"} -->
 <div class="wp-block-columns alignwide ks-shop-layout"><!-- wp:column {"width":"26%","className":"ks-shop-sidebar"} -->
 <div class="wp-block-column ks-shop-sidebar" style="flex-basis:26%"><!-- wp:group {"className":"ks-filter-card","layout":{"type":"default"}} -->
@@ -58,7 +66,12 @@
 <!-- /wp:group -->
 
 <!-- wp:woocommerce/product-collection {"queryId":21,"query":{"perPage":48,"pages":0,"offset":0,"postType":"product","order":"asc","orderBy":"menu_order","search":"","exclude":[],"inherit":true,"taxQuery":[],"isProductCollectionBlock":true,"woocommerceStockStatus":["instock","outofstock","onbackorder"],"woocommerceAttributes":[],"woocommerceHandPickedProducts":[]},"tagName":"div","displayLayout":{"type":"flex","columns":3,"shrinkColumns":true},"className":"ks-products ks-products--catalog"} -->
-<div class="wp-block-woocommerce-product-collection ks-products ks-products--catalog"><!-- wp:woocommerce/product-template -->
+<div class="wp-block-woocommerce-product-collection ks-products ks-products--catalog"><!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"},"className":"ks-pagination--top"} -->
+<!-- wp:query-pagination-previous {"label":"Anterior"} /-->
+<!-- wp:query-pagination-numbers /-->
+<!-- wp:query-pagination-next {"label":"Siguiente"} /-->
+<!-- /wp:query-pagination -->
+<!-- wp:woocommerce/product-template -->
 <!-- wp:woocommerce/product-image {"showProductLink":true,"showSaleBadge":true,"saleBadgeAlign":"left","isDescendentOfQueryLoop":true} /-->
 <!-- wp:post-title {"isLink":true,"level":3,"__woocommerceNamespace":"woocommerce/product-collection/product-title"} /-->
 <!-- wp:woocommerce/product-rating {"isDescendentOfQueryLoop":true} /-->
@@ -66,9 +79,9 @@
 <!-- wp:woocommerce/product-button {"isDescendentOfQueryLoop":true} /-->
 <!-- /wp:woocommerce/product-template -->
 <!-- wp:query-pagination {"layout":{"type":"flex","justifyContent":"center"}} -->
-<!-- wp:query-pagination-previous /-->
+<!-- wp:query-pagination-previous {"label":"Anterior"} /-->
 <!-- wp:query-pagination-numbers /-->
-<!-- wp:query-pagination-next /-->
+<!-- wp:query-pagination-next {"label":"Siguiente"} /-->
 <!-- /wp:query-pagination --></div>
 <!-- /wp:woocommerce/product-collection --></div>
 <!-- /wp:column --></div>

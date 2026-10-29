@@ -38,6 +38,12 @@ function kinesilk_enqueue() {
 		wp_enqueue_script( 'kinesilk-shop-filters', get_theme_file_uri( 'assets/js/shop-filters.js' ), array(), $ver, true );
 		wp_enqueue_script( 'kinesilk-cart-fx', get_theme_file_uri( 'assets/js/cart-fx.js' ), array( 'jquery' ), $ver, true );
 		wp_enqueue_script( 'kinesilk-card-qty', get_theme_file_uri( 'assets/js/card-qty.js' ), array( 'jquery' ), $ver, true );
+		$sel_js  = get_theme_file_path( 'assets/js/session-select.js' );
+		$sel_ver = file_exists( $sel_js ) ? filemtime( $sel_js ) : $ver;
+		wp_enqueue_script( 'kinesilk-session-select', get_theme_file_uri( 'assets/js/session-select.js' ), array(), $sel_ver, true );
+		$srch_js  = get_theme_file_path( 'assets/js/shop-search.js' );
+		$srch_ver = file_exists( $srch_js ) ? filemtime( $srch_js ) : $ver;
+		wp_enqueue_script( 'kinesilk-shop-search', get_theme_file_uri( 'assets/js/shop-search.js' ), array(), $srch_ver, true );
 	}
 
 	if ( is_front_page() ) {
@@ -174,7 +180,29 @@ function kinesilk_product_badges( $content ) {
  */
 function kinesilk_badges_html( $p ) {
 	$badges = array();
-	if ( $p->is_on_sale() && $p->get_regular_price() && $p->get_sale_price() ) {
+	$extra  = '';
+	if ( kinesilk_is_session_product( $p ) ) {
+		$def = null;
+		foreach ( $p->get_available_variations() as $v ) {
+			$ses = 0;
+			foreach ( (array) $v['attributes'] as $ak => $av ) {
+				if ( false !== strpos( $ak, 'sesiones' ) ) {
+					$ses = kinesilk_session_count( $av );
+				}
+			}
+			if ( null === $def || $ses > $def['ses'] ) {
+				$def = array(
+					'reg' => (float) $v['display_regular_price'],
+					'now' => (float) $v['display_price'],
+					'ses' => $ses,
+				);
+			}
+		}
+		if ( $def && $def['reg'] > $def['now'] ) {
+			$pct   = round( ( 1 - $def['now'] / $def['reg'] ) * 100 );
+			$extra = '<span class="ks-pbadge ks-pbadge--sale" data-ks-offbadge="' . esc_attr( $p->get_id() ) . '">' . sprintf( '-%d%%', $pct ) . '</span>';
+		}
+	} elseif ( $p->is_on_sale() && $p->get_regular_price() && $p->get_sale_price() ) {
 		$pct      = round( 100 - ( (float) $p->get_sale_price() / (float) $p->get_regular_price() ) * 100 );
 		$badges[] = array( 'sale', sprintf( '-%d%%', $pct ) );
 	}
@@ -187,10 +215,10 @@ function kinesilk_badges_html( $p ) {
 	if ( ! $p->is_in_stock() ) {
 		$badges[] = array( 'out', __( 'Agotado', 'kinesilk' ) );
 	}
-	if ( ! $badges ) {
+	if ( ! $badges && '' === $extra ) {
 		return '';
 	}
-	$html = '<div class="ks-badges-overlay">';
+	$html = '<div class="ks-badges-overlay">' . $extra;
 	foreach ( $badges as $b ) {
 		$html .= '<span class="ks-pbadge ks-pbadge--' . esc_attr( $b[0] ) . '">' . esc_html( $b[1] ) . '</span>';
 	}
@@ -555,3 +583,214 @@ add_action( 'wp_footer', function () {
 	<?php
 }, 99 );
 
+
+/* ==========================================================================
+   Selector de sesiones en el card (productos variables con atributo Sesiones)
+   Reemplaza el campo de cantidad por "elige 3 o 6 sesiones": precio por
+   variacion, por sesion y % de descuento. Cantidad fija en 1.
+   ========================================================================== */
+
+function kinesilk_is_session_product( $p ) {
+	if ( ! $p instanceof WC_Product || ! $p->is_type( 'variable' ) ) {
+		return false;
+	}
+	foreach ( array_keys( $p->get_attributes() ) as $k ) {
+		if ( false !== strpos( $k, 'sesiones' ) ) {
+			return true;
+		}
+	}
+	return false;
+}
+
+function kinesilk_session_count( $value ) {
+	$n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
+	return $n > 0 ? $n : 0;
+}
+
+function kinesilk_session_widget( $p ) {
+	$variations = $p->get_available_variations();
+	if ( empty( $variations ) ) {
+		return '';
+	}
+	$pid   = $p->get_id();
+	$link  = $p->get_permalink();
+	$items = array();
+	foreach ( $variations as $v ) {
+		if ( empty( $v['variation_id'] ) || ( isset( $v['is_purchasable'] ) && ! $v['is_purchasable'] ) ) {
+			continue;
+		}
+		$key = '';
+		$val = '';
+		foreach ( (array) $v['attributes'] as $ak => $av ) {
+			if ( false !== strpos( $ak, 'sesiones' ) ) {
+				$key = $ak;
+				$val = $av;
+			}
+		}
+		if ( '' === $key && ! empty( $v['attributes'] ) ) {
+			$key = (string) array_key_first( $v['attributes'] );
+			$val = (string) reset( $v['attributes'] );
+		}
+		$items[] = array(
+			'vid' => (int) $v['variation_id'],
+			'now' => (float) $v['display_price'],
+			'reg' => (float) $v['display_regular_price'],
+			'ses' => kinesilk_session_count( $val ),
+			'key' => $key,
+			'val' => $val,
+		);
+	}
+	if ( ! $items ) {
+		return '';
+	}
+	usort(
+		$items,
+		function ( $a, $b ) {
+			return $b['ses'] <=> $a['ses'];
+		}
+	);
+
+	$pills = '';
+	foreach ( $items as $i => $it ) {
+		$href  = add_query_arg(
+			array(
+				'add-to-cart'  => $pid,
+				'variation_id' => $it['vid'],
+				$it['key']     => $it['val'],
+				'quantity'     => 1,
+			),
+			$link
+		);
+		$tag   = 0 === $i ? '<span class="ks-sel__tag">' . esc_html__( 'Recomendada', 'kinesilk' ) . '</span>' : '';
+		$label = $it['ses'] ? sprintf( _n( '%d sesión', '%d sesiones', $it['ses'], 'kinesilk' ), $it['ses'] ) : $it['val'];
+		$pills .= sprintf(
+			'<button type="button" class="ks-sel__pill" aria-pressed="%s" data-vid="%d" data-ses="%d" data-now="%s" data-reg="%s" data-href="%s">%s<span class="ks-sel__pilln">%s</span><span class="ks-sel__pillh">%s</span></button>',
+			0 === $i ? 'true' : 'false',
+			$it['vid'],
+			$it['ses'],
+			esc_attr( $it['now'] ),
+			esc_attr( $it['reg'] ),
+			esc_url( $href ),
+			$tag,
+			esc_html( $label ),
+			wp_kses_post( wc_price( $it['now'] ) )
+		);
+	}
+
+	$d         = $items[0];
+	$off_html  = '';
+	$was_html  = '';
+	if ( $d['reg'] > $d['now'] ) {
+		$off      = round( ( 1 - $d['now'] / $d['reg'] ) * 100 );
+		$off_html = esc_html( $off . '% OFF' );
+		$was_html = wp_kses_post( wc_price( $d['reg'] ) );
+	}
+	$unit_html = $d['ses'] ? wp_kses_post( wc_price( $d['now'] / $d['ses'] ) ) : '';
+	$d_href    = add_query_arg(
+		array(
+			'add-to-cart'  => $pid,
+			'variation_id' => $d['vid'],
+			$d['key']      => $d['val'],
+			'quantity'     => 1,
+		),
+		$link
+	);
+
+	ob_start();
+	?>
+	<div class="ks-sel" data-ks-sel="<?php echo esc_attr( $pid ); ?>">
+		<div class="ks-sel__pills"><?php echo $pills; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+		<div class="ks-sel__price">
+			<div class="ks-sel__prow">
+				<span class="ks-sel__off"<?php echo $off_html ? '' : ' hidden'; ?>><?php echo $off_html; // phpcs:ignore ?></span>
+				<span class="ks-sel__was"<?php echo $was_html ? '' : ' hidden'; ?>><?php echo $was_html; // phpcs:ignore ?></span>
+			</div>
+			<div class="ks-sel__now"><?php echo wp_kses_post( wc_price( $d['now'] ) ); ?></div>
+			<div class="ks-sel__unit"<?php echo $unit_html ? '' : ' hidden'; ?>><?php esc_html_e( 'Por sesión', 'kinesilk' ); ?> <b><?php echo $unit_html; // phpcs:ignore ?></b></div>
+		</div>
+		<a class="ks-sel__cta" href="<?php echo esc_url( $d_href ); ?>" rel="nofollow" data-base="<?php echo esc_attr__( 'Agregar', 'kinesilk' ); ?>"><?php echo esc_html( __( 'Agregar', 'kinesilk' ) . ' — ' . wp_strip_all_tags( wc_price( $d['now'] ) ) ); ?></a>
+	</div>
+	<?php
+	return trim( ob_get_clean() );
+}
+
+function kinesilk_session_price_block( $content ) {
+	global $product;
+	$p = $product instanceof WC_Product ? $product : wc_get_product( get_the_ID() );
+	if ( $p && kinesilk_is_session_product( $p ) ) {
+		$w = kinesilk_session_widget( $p );
+		if ( $w ) {
+			return $w;
+		}
+	}
+	return $content;
+}
+
+function kinesilk_session_button_block( $content ) {
+	global $product;
+	$p = $product instanceof WC_Product ? $product : wc_get_product( get_the_ID() );
+	if ( $p && kinesilk_is_session_product( $p ) ) {
+		return '';
+	}
+	return $content;
+}
+
+if ( class_exists( 'WooCommerce' ) ) {
+	add_filter( 'render_block_woocommerce/product-price', 'kinesilk_session_price_block' );
+	add_filter( 'render_block_woocommerce/product-button', 'kinesilk_session_button_block' );
+}
+
+
+/* Página de producto: ocultar el formulario nativo (dropdown + Añadir) para
+   productos de sesiones; el selector queda en los pills del bloque de precio. */
+function kinesilk_session_hide_native_form( $content ) {
+	global $product;
+	$p = $product instanceof WC_Product ? $product : wc_get_product( get_the_ID() );
+	if ( $p && kinesilk_is_session_product( $p ) ) {
+		return '';
+	}
+	return $content;
+}
+if ( class_exists( 'WooCommerce' ) ) {
+	add_filter( 'render_block_woocommerce/add-to-cart-form', 'kinesilk_session_hide_native_form' );
+}
+
+
+/* Paginación: leyenda "Página X de Y" sobre el navegador de páginas. */
+function kinesilk_pagination_caption( $content, $block ) {
+	if ( is_admin() ) {
+		return $content;
+	}
+	$q     = isset( $GLOBALS['wp_query'] ) ? $GLOBALS['wp_query'] : null;
+	$total = ( $q instanceof WP_Query ) ? (int) $q->max_num_pages : 0;
+	if ( $total < 2 ) {
+		return $content;
+	}
+	$current = max( 1, (int) get_query_var( 'paged' ), (int) get_query_var( 'page' ) );
+	$caption = '<p class="ks-pg-caption">' . sprintf(
+		/* translators: 1: página actual, 2: total de páginas */
+		esc_html__( 'Página %1$s de %2$s', 'kinesilk' ),
+		'<b>' . (int) $current . '</b>',
+		'<b>' . (int) $total . '</b>'
+	) . '</p>';
+	return $caption . $content;
+}
+add_filter( 'render_block_core/query-pagination', 'kinesilk_pagination_caption', 10, 2 );
+
+
+/* Buscador del catálogo: aplica ?buscar= al query principal de la tienda. */
+function kinesilk_shop_search( $q ) {
+	if ( is_admin() || ! $q->is_main_query() ) {
+		return;
+	}
+	if ( ! function_exists( 'is_shop' ) || ! ( is_shop() || is_product_taxonomy() ) ) {
+		return;
+	}
+	if ( isset( $_GET['buscar'] ) ) {
+		$term = sanitize_text_field( wp_unslash( $_GET['buscar'] ) );
+		if ( '' !== trim( $term ) ) {
+			$q->set( 's', $term );
+		}
+	}
+}
+add_action( 'pre_get_posts', 'kinesilk_shop_search' );
