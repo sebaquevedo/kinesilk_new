@@ -4481,6 +4481,31 @@ html.has-modal-open .wc-block-components-product-image-gallery__dialog-trigger {
 .ks-sel, .ks-sel * { box-sizing: border-box; }
 .ks-sel [hidden] { display: none !important; }
 .ks-sel__pills { display: flex; gap: .5rem; }
+/* Grupo de píldoras por tamaño: transparente al layout salvo ocultar el grupo inactivo */
+.ks-sel__group { display: contents; }
+.ks-sel__lbl { color: var(--ks-ink-soft); font-size: .62rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.ks-sel__lbl-unit { text-transform: none; letter-spacing: .04em; }
+/* Pestañas de tamaño (segmented) — artboard 01 */
+.ks-size-tabs { display: flex; flex-wrap: wrap; gap: 2px; background: rgba(30, 43, 42, .06); border-radius: 10px; padding: 3px; }
+.ks-size__tab {
+	flex: 1;
+	background: none;
+	border: 0;
+	border-radius: 8px;
+	color: var(--ks-ink-soft);
+	cursor: pointer;
+	font-family: var(--wp--preset--font-family--heading, inherit);
+	font-weight: 700;
+	font-size: .7rem;
+	padding: .3rem .1rem;
+	text-align: center;
+	transition: background .15s, color .15s, box-shadow .15s;
+}
+.ks-size__tab small { display: block; font-size: .56rem; font-weight: 600; color: var(--ks-ink-soft); margin-top: .1rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ks-size__tab:hover { color: var(--ks-ink); }
+.ks-size__tab[aria-selected="true"] { background: var(--ks-white); box-shadow: 0 1px 3px rgba(30, 43, 42, .14); color: var(--ks-ink); }
+.ks-size__tab[aria-selected="true"] small { color: var(--ks-promo-pink); }
+.ks-size__tab:focus-visible { outline: 2px solid var(--ks-ink); outline-offset: 1px; }
 .ks-sel__pill {
 	flex: 1;
 	position: relative;
@@ -4543,7 +4568,25 @@ html.has-modal-open .wc-block-components-product-image-gallery__dialog-trigger {
 .ks-sel__cta:hover { background: var(--ks-coral); color: var(--ks-ink); text-decoration: none; }
 .ks-sel__cta:active { transform: translateY(1px); }
 .ks-sel__cta.is-added { background: var(--ks-mint); color: var(--ks-ink); }
-@media (prefers-reduced-motion: reduce) { .ks-sel__pill, .ks-sel__cta { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .ks-sel__pill, .ks-sel__cta, .ks-size__tab { transition: none; } }
+/* Píldoras apiladas cuando el contenedor es angosto (container query): cubre
+   tarjetas del catálogo, columnas angostas e inspectores, independientemente del viewport. */
+.wc-block-product, .ks-product__summary { container-type: inline-size; }
+@container (max-width: 480px) {
+	.ks-sel__pills { flex-direction: column; }
+	.ks-sel__group { display: block; }
+	.ks-sel__group:not([hidden]) { display: flex; flex-direction: column; gap: .5rem; }
+	.ks-sel__pill { flex: none; }
+	.ks-sel__pillh { margin-top: 0; }
+}
+/* Fallback por viewport para navegadores sin container queries */
+@media (max-width: 782px) {
+	.ks-sel__pills { flex-direction: column; }
+	.ks-sel__group { display: block; }
+	.ks-sel__group:not([hidden]) { display: flex; flex-direction: column; gap: .5rem; }
+	.ks-sel__pill { flex: none; }
+	.ks-sel__pillh { margin-top: 0; }
+}
 
 
 /* ==========================================================================

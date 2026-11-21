@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>01 — Segmented de dos niveles</title>
+<style>
+  :root{
+    --cream:#FCF9EA; --white:#FFFFFF; --ink:#1E2B2A; --ink-soft:#4A5856;
+    --mint:#87E9CE; --coral:#FEA4A4; --promo-pink:#C2366B;
+    --radius:24px; --radius-sm:14px;
+    --shadow:0 1px 2px rgba(30,43,42,.04), 0 12px 32px -16px rgba(30,43,42,.18);
+    --f-head:"Outfit","Segoe UI",system-ui,sans-serif;
+    --f-body:"DM Sans","Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--f-body);background:var(--cream);color:var(--ink);padding:48px 64px}
+  h1{font-family:var(--f-head);font-size:1.6rem;margin-bottom:6px}
+  .note{color:var(--ink-soft);max-width:720px;margin-bottom:36px;font-size:.95rem}
+  .grid{display:flex;gap:28px;align-items:start;flex-wrap:wrap}
+  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);width:300px;overflow:hidden;display:flex;flex-direction:column}
+  .card img{width:100%;height:210px;object-fit:cover;display:block}
+  .card.ph{background:linear-gradient(135deg,#BADEDA 0%,#87E9CE 60%,#FFBDBE 100%)}
+  .body{padding:0 16px 16px;display:flex;flex-direction:column;gap:12px}
+  h3{font-family:var(--f-head);font-size:1.02rem;font-weight:700;line-height:1.25}
+
+  /* Nivel 1: pestañas de TAMAÑO (segmented de 5) */
+  .tabs{display:flex;background:rgba(30,43,42,.06);border-radius:10px;padding:3px;gap:2px}
+  .tab{flex:1;text-align:center;font-size:.62rem;font-weight:700;padding:6px 0;border-radius:8px;color:var(--ink-soft);cursor:pointer;border:0;background:none;font-family:var(--f-head)}
+  .tab small{display:block;font-weight:600;font-size:.58rem;opacity:.75}
+  .tab.active{background:var(--white);color:var(--ink);box-shadow:0 1px 3px rgba(30,43,42,.14)}
+  .tab.active small{color:#C2366B}
+
+  /* Nivel 2: plan de sesiones (píldoras existentes) */
+  .pills{display:flex;gap:.5rem;position:relative;padding-top:8px}
+  .pill{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--white);border:1.5px solid rgba(30,43,42,.16);border-radius:var(--radius-sm);padding:.5rem .3rem;position:relative;cursor:pointer}
+  .pill .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--mint);font-size:.56rem;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:7px;white-space:nowrap}
+  .pill .n{font-family:var(--f-head);font-weight:700;font-size:.85rem}
+  .pill .h{font-size:.72rem;color:var(--ink-soft)}
+  .pill.active{border-color:var(--coral);background:rgba(254,164,164,.16)}
+
+  .priceblock{display:flex;align-items:baseline;gap:10px}
+  .off{background:var(--promo-pink);color:var(--white);border-radius:6px;font-size:.72rem;font-weight:700;padding:2px 8px}
+  .was{color:var(--ink-soft);text-decoration:line-through;font-size:.9rem}
+  .now{font-family:var(--f-head);font-size:1.6rem;font-weight:700}
+  .unit{font-size:.8rem;color:var(--ink-soft)}
+  .unit b{color:#C2366B}
+  .cta{display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--cream);border-radius:999px;min-height:48px;font-weight:600}
+  .cap{margin-top:10px;max-width:300px;font-size:.8rem;color:var(--ink-soft)}
+  .cap b{color:var(--ink)}
+  .lbl-u{text-transform:none;letter-spacing:.04em}
+  .lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .flash{animation:flash .35s ease}
+  @keyframes flash{0%{opacity:.35}100%{opacity:1}}
+  @media (prefers-reduced-motion: reduce){.flash{animation:none}}
+</style>
+</head>
+<body>
+<h1>01 · Segmented de dos niveles</h1>
+<p class="note">El atributo <b>Tamaño</b> pasa a un segmented compacto de 5 pestañas en una sola fila (cabe en 300px: 5×~56px); el plan de sesiones conserva las píldoras actuales. Dos controles apilados, cada uno con un atributo.</p>
+
+<div class="grid">
+  <div>
+    <div class="card">
+      <div class="card ph" style="height:210px"></div>
+      <div class="body">
+        <h3>Borrado de Tatuajes Láser</h3>
+        <span class="lbl">Tamaño del tatuaje <span class="lbl-u">(centímetros)</span></span>
+        <div class="tabs" role="tablist" aria-label="Tamaño del tatuaje">
+          <button class="tab active" role="tab" aria-selected="true">≤3cm<small>$29.990</small></button>
+          <button class="tab" role="tab" aria-selected="false">4–9<small>$35.990</small></button>
+          <button class="tab" role="tab" aria-selected="false">10–15<small>$39.990</small></button>
+          <button class="tab" role="tab" aria-selected="false">16–20<small>$49.990</small></button>
+          <button class="tab" role="tab" aria-selected="false">20+<small>$55.990</small></button>
+        </div>
+        <div class="pills" data-plan>
+          <button class="pill active" data-plan="6"><span class="tag">Recomendada</span><span class="n">6 sesiones</span><span class="h" data-price-6>$179.990</span></button>
+          <button class="pill" data-plan="1"><span class="n">1 sesión</span><span class="h" data-price-1>$29.990</span></button>
+        </div>
+        <div class="priceblock" data-priceblock>
+          <span class="now" data-now>$179.990</span>
+          <span class="unit">Por sesión <b data-unit>$29.998</b></span>
+        </div>
+        <div class="cta" data-cta>Agregar — $179.990</div>
+      </div>
+    </div>
+    <p class="cap"><b>Tradeoff:</b> máximo aprovechamiento del ancho; las miniaturas de precio por tamaño anticipan el costo sin cambiar de pestaña. Compacto y consistente con el estilo de píldoras.</p>
+  </div>
+
+  <div>
+    <div class="card">
+      <div class="card ph" style="height:210px;border-radius:0"></div>
+      <div class="body">
+        <h3>Antebrazos | Depilación Láser</h3>
+        <div class="pills" data-plan>
+          <button class="pill active" data-plan="6"><span class="tag">Recomendada</span><span class="n">6 sesiones</span><span class="h" data-price-6>$79.990</span></button>
+          <button class="pill" data-plan="3"><span class="n">3 sesiones</span><span class="h" data-price-3>$52.990</span></button>
+          <button class="pill" data-plan="1"><span class="n">1 sesión</span><span class="h" data-price-1>$21.990</span></button>
+        </div>
+        <div class="priceblock" data-priceblock>
+          <span class="off">47% OFF</span><span class="was">$149.990</span>
+        </div>
+        <div class="priceblock"><span class="now" data-now>$79.990</span><span class="unit">Por sesión <b data-unit>$13.332</b></span></div>
+        <div class="cta" data-cta>Agregar — $79.990</div>
+      </div>
+    </div>
+    <p class="cap">Los productos con un solo atributo <b>no muestran el segmented</b>: la fila de tamaño aparece solo cuando existe (regla del render).</p>
+  </div>
+</div>
+
+<script>
+// Datos reales del producto 2794 (tamaño → { 6 sesiones, 1 sesión, por sesión del pack de 6 })
+const TAMANOS = {
+  "0": { "6": "179.990", "1": "29.990", unit: "29.998" },
+  "1": { "6": "189.990", "1": "35.990", unit: "31.665" },
+  "2": { "6": "229.990", "1": "39.990", unit: "38.332" },
+  "3": { "6": "269.990", "1": "49.990", unit: "44.998" },
+  "4": { "6": "299.990", "1": "55.990", unit: "49.998" },
+};
+const fmt = n => "$" + n.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ".");
+
+// Tarjeta 1: tamaño (segmented) × plan (píldoras)
+const cards = document.querySelectorAll(".card:not(.ph)");
+const card1 = cards[0];
+const tabs = [...card1.querySelectorAll(".tab")];
+const pills1 = [...card1.querySelectorAll(".pill")];
+let size = "0";
+
+function paint1(){
+  tabs.forEach((t, i) => {
+    t.classList.toggle("active", String(i) === size);
+    t.setAttribute("aria-selected", String(i) === size ? "true" : "false");
+  });
+  const d = TAMANOS[size];
+  pills1.forEach(p => {
+    const plan = p.dataset.plan;
+    p.querySelector(p.dataset.plan === "6" ? "[data-price-6]" : "[data-price-" + plan + "]").textContent = fmt(d[plan]);
+  });
+  const active = pills1.find(p => p.classList.contains("active"));
+  const plan = active ? active.dataset.plan : "6";
+  const now = fmt(d[plan]);
+  card1.querySelector("[data-now]").textContent = now;
+  card1.querySelector("[data-unit]").textContent = "$" + d.unit;
+  card1.querySelector("[data-cta]").textContent = "Agregar — " + now;
+}
+
+tabs.forEach((t, i) => t.addEventListener("click", () => {
+  size = String(i);
+  paint1();
+  const pb = card1.querySelector("[data-priceblock]");
+  pb.classList.remove("flash"); void pb.offsetWidth; pb.classList.add("flash");
+}));
+
+pills1.forEach(p => p.addEventListener("click", () => {
+  pills1.forEach(x => x.classList.remove("active"));
+  p.classList.add("active");
+  paint1();
+}));
+
+// Tarjeta 2: solo plan (sin tamaño)
+const card2 = cards[1];
+const pills2 = [...card2.querySelectorAll(".pill")];
+pills2.forEach(p => p.addEventListener("click", () => {
+  pills2.forEach(x => x.classList.remove("active"));
+  p.classList.add("active");
+  const now = p.querySelector(".h").textContent;
+  card2.querySelector("[data-now]").textContent = now;
+  card2.querySelector("[data-cta]").textContent = "Agregar — " + now;
+}));
+</script>
+</body>
+</html>

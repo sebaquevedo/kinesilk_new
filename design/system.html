@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Kinesilk — Design System</title>
+<style>
+  :root{
+    --cream:#FCF9EA; --white:#FFFFFF; --ink:#1E2B2A; --ink-soft:#4A5856;
+    --mint:#87E9CE; --coral:#FEA4A4; --blush:#FFBDBE; --aqua:#BADEDA;
+    --promo-pink:#C2366B; --promo-yellow:#FFC22E;
+    --radius:24px; --radius-sm:14px;
+    --shadow:0 1px 2px rgba(30,43,42,.04), 0 12px 32px -16px rgba(30,43,42,.18);
+    --f-head:"Outfit","Segoe UI",system-ui,sans-serif;
+    --f-body:"DM Sans","Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--f-body);background:var(--cream);color:var(--ink);padding:56px 64px}
+  h1{font-family:var(--f-head);font-size:2.4rem;font-weight:700}
+  .sub{color:var(--ink-soft);margin:8px 0 40px}
+  h2{font-family:var(--f-head);font-size:1.15rem;text-transform:uppercase;letter-spacing:.06em;margin:40px 0 16px;color:var(--ink-soft)}
+  .swatches{display:flex;gap:16px;flex-wrap:wrap}
+  .sw{width:132px;border-radius:var(--radius-sm);overflow:hidden;background:var(--white);box-shadow:var(--shadow)}
+  .sw i{display:block;height:72px}
+  .sw span{display:block;padding:10px 12px;font-size:.78rem;line-height:1.35}
+  .sw b{font-family:var(--f-head);font-size:.85rem}
+  .row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+  .type>div{margin-bottom:10px}
+  .pill{display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:var(--white);border:1.5px solid rgba(30,43,42,.16);border-radius:var(--radius-sm);padding:.55rem 1.1rem .5rem;position:relative}
+  .pill .n{font-family:var(--f-head);font-weight:700;font-size:.95rem}
+  .pill .h{font-size:.78rem;color:var(--ink-soft)}
+  .pill.active{border-color:var(--coral);background:rgba(254,164,164,.16)}
+  .pill .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--mint);font-size:.58rem;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:7px;white-space:nowrap}
+  .cta{display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--cream);border-radius:999px;min-height:48px;padding:0 28px;font-weight:600}
+  .off{background:var(--promo-pink);color:var(--white);border-radius:6px;font-size:.72rem;font-weight:700;padding:2px 8px}
+  .price{font-family:var(--f-head);font-size:1.6rem;font-weight:700}
+  .radii{display:flex;gap:16px}
+  .radii div{background:var(--aqua);width:90px;height:56px}
+</style>
+</head>
+<body>
+<h1>Kinesilk · Design System</h1>
+<p class="sub">Tokens sincronizados del tema kinesilk_new (styles.css, theme.json). Board de referencia para artboards.</p>
+
+<h2>Paleta</h2>
+<div class="swatches">
+  <div class="sw"><i style="background:#FCF9EA;border:1px solid #eee"></i><span><b>cream</b><br>#FCF9EA · fondo</span></div>
+  <div class="sw"><i style="background:#FFFFFF;border:1px solid #eee"></i><span><b>white</b><br>#FFFFFF · tarjetas</span></div>
+  <div class="sw"><i style="background:#1E2B2A"></i><span><b>ink</b><br>#1E2B2A · texto/CTA</span></div>
+  <div class="sw"><i style="background:#4A5856"></i><span><b>ink-soft</b><br>#4A5856 · secundario</span></div>
+  <div class="sw"><i style="background:#87E9CE"></i><span><b>mint</b><br>#87E9CE · recomendada</span></div>
+  <div class="sw"><i style="background:#FEA4A4"></i><span><b>coral</b><br>#FEA4A4 · acento/activo</span></div>
+  <div class="sw"><i style="background:#FFBDBE"></i><span><b>blush</b><br>#FFBDBE</span></div>
+  <div class="sw"><i style="background:#BADEDA"></i><span><b>aqua</b><br>#BADEDA</span></div>
+  <div class="sw"><i style="background:#C2366B"></i><span><b>promo-pink</b><br>#C2366B · descuento</span></div>
+</div>
+
+<h2>Tipografía</h2>
+<div class="card type">
+  <div style="font-family:var(--f-head);font-size:1.9rem;font-weight:700">Outfit · Títulos y precios grandes</div>
+  <div style="font-size:1rem">DM Sans · cuerpo, descripciones y precios secundarios</div>
+</div>
+
+<h2>Radio y sombra</h2>
+<div class="radii">
+  <div style="border-radius:var(--radius)"></div>
+  <div style="border-radius:var(--radius-sm)"></div>
+  <div style="border-radius:999px;width:120px"></div>
+</div>
+
+<h2>Componentes</h2>
+<div class="row card" style="gap:20px">
+  <span class="pill active"><span class="tag">Recomendada</span><span class="n">6 sesiones</span><span class="h">$179.990</span></span>
+  <span class="pill"><span class="n">1 sesión</span><span class="h">$29.990</span></span>
+  <span class="off">47% OFF</span>
+  <span class="price">$179.990</span>
+  <span class="cta">Agregar — $179.990</span>
+</div>
+</body>
+</html>

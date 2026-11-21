@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "comments": [
+    {
+      "id": "wnxqr2d9",
+      "file": "01-segmented-dos-niveles.html",
+      "selector": "body > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > button:nth-of-type(2)",
+      "excerpt": "4–9 $35.990",
+      "comment": "implementa el click para ver la dinamica de funcionamiento",
+      "createdAt": "2026-11-21T00:11:57.189Z",
+      "status": "resolved",
+      "sentAt": "2026-11-21T00:13:52.860Z",
+      "resolvedAt": "2026-11-21T00:16:54.254Z",
+      "resolution": "Artboard 01 ahora es interactivo: las pestañas de tamaño repintan los precios de las píldoras y el bloque de precio/CTA con los datos reales del producto; las píldoras de sesiones también conmutan (verificado con clicks automatizados en navegador)."
+    },
+    {
+      "id": "ukzxfznb",
+      "file": "03-select-matriz.html",
+      "selector": "body > div > div:nth-of-type(1) > div > div:nth-of-type(2) > span",
+      "excerpt": "TAMAÑO DEL TATUAJE",
+      "comment": "añade este label en los otros diseños",
+      "createdAt": "2026-11-21T00:17:57.104Z",
+      "status": "resolved",
+      "sentAt": "2026-11-21T00:17:59.686Z",
+      "resolvedAt": "2026-11-21T00:18:36.730Z",
+      "resolution": "Agregué el label \"Tamaño del tatuaje\" (mismo estilo .lbl del artboard 03) sobre el selector de tamaño en los artboards 01 (segmented) y 02 (tabs subrayadas)."
+    }
+  ]
+}

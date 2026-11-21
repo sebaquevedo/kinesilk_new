@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>02 — Pestañas subrayadas de tamaño</title>
+<style>
+  :root{
+    --cream:#FCF9EA; --white:#FFFFFF; --ink:#1E2B2A; --ink-soft:#4A5856;
+    --mint:#87E9CE; --coral:#FEA4A4; --promo-pink:#C2366B;
+    --radius:24px; --radius-sm:14px;
+    --shadow:0 1px 2px rgba(30,43,42,.04), 0 12px 32px -16px rgba(30,43,42,.18);
+    --f-head:"Outfit","Segoe UI",system-ui,sans-serif;
+    --f-body:"DM Sans","Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--f-body);background:var(--cream);color:var(--ink);padding:48px 64px}
+  h1{font-family:var(--f-head);font-size:1.6rem;margin-bottom:6px}
+  .note{color:var(--ink-soft);max-width:720px;margin-bottom:36px;font-size:.95rem}
+  .grid{display:flex;gap:28px;align-items:start;flex-wrap:wrap}
+  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);width:300px;overflow:hidden;display:flex;flex-direction:column}
+  .card.ph{background:linear-gradient(135deg,#BADEDA 0%,#87E9CE 60%,#FFBDBE 100%);height:210px}
+  .body{padding:0 16px 16px;display:flex;flex-direction:column;gap:12px}
+  h3{font-family:var(--f-head);font-size:1.02rem;font-weight:700;line-height:1.25}
+  .lbl-u{text-transform:none;letter-spacing:.04em}
+  .lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+
+  /* Pestañas tamaño: estilo underline igual a .wc-tabs del tema */
+  .size-tabs{display:flex;border-bottom:1px solid rgba(30,43,42,.12);gap:2px}
+  .stab{flex:1;background:none;border:0;border-bottom:3px solid transparent;padding:8px 0 7px;cursor:pointer;font-family:var(--f-head);font-weight:700;font-size:.68rem;color:var(--ink-soft);margin-bottom:-1px}
+  .stab.active{border-bottom-color:var(--coral);color:var(--ink)}
+  .stab .h{display:block;font-size:.6rem;font-weight:600;color:var(--ink-soft)}
+
+  .pills{display:flex;gap:.5rem;position:relative;padding-top:8px}
+  .pill{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--white);border:1.5px solid rgba(30,43,42,.16);border-radius:var(--radius-sm);padding:.5rem .3rem;position:relative;cursor:pointer}
+  .pill .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--mint);font-size:.56rem;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:7px;white-space:nowrap}
+  .pill .n{font-family:var(--f-head);font-weight:700;font-size:.85rem}
+  .pill .h{font-size:.72rem;color:var(--ink-soft)}
+  .pill.active{border-color:var(--coral);background:rgba(254,164,164,.16)}
+
+  .priceblock{display:flex;align-items:baseline;gap:10px}
+  .was{color:var(--ink-soft);text-decoration:line-through;font-size:.9rem}
+  .now{font-family:var(--f-head);font-size:1.6rem;font-weight:700}
+  .unit{font-size:.8rem;color:var(--ink-soft)}
+  .unit b{color:#C2366B}
+  .cta{display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--cream);border-radius:999px;min-height:48px;font-weight:600}
+  .cap{margin-top:10px;max-width:300px;font-size:.8rem;color:var(--ink-soft)}
+  .cap b{color:var(--ink)}
+</style>
+</head>
+<body>
+<h1>02 · Pestañas subrayadas de tamaño</h1>
+<p class="note">Reutiliza el lenguaje de las pestañas WooCommerce del tema (`.wc-tabs`): fila con regla inferior y pestaña activa con subrayado coral de 3px. Las píldoras de sesiones quedan debajo, sin cambios.</p>
+
+<div class="grid">
+  <div>
+    <div class="card">
+      <div class="card ph"></div>
+      <div class="body">
+        <h3>Borrado de Tatuajes Láser</h3>
+        <span class="lbl">Tamaño del tatuaje <span class="lbl-u">(centímetros)</span></span>
+        <div class="size-tabs" role="tablist" aria-label="Tamaño del tatuaje">
+          <button class="stab active" role="tab" aria-selected="true">Hasta 3<span class="h">$29.990</span></button>
+          <button class="stab" role="tab" aria-selected="false">4 a 9<span class="h">$35.990</span></button>
+          <button class="stab" role="tab" aria-selected="false">10 a 15<span class="h">$39.990</span></button>
+          <button class="stab" role="tab" aria-selected="false">16 a 20<span class="h">$49.990</span></button>
+          <button class="stab" role="tab" aria-selected="false">+20<span class="h">$55.990</span></button>
+        </div>
+        <div class="pills">
+          <button class="pill active"><span class="tag">Recomendada</span><span class="n">6 sesiones</span><span class="h">$179.990</span></button>
+          <button class="pill"><span class="n">1 sesión</span><span class="h">$29.990</span></button>
+        </div>
+        <div class="priceblock"><span class="now">$179.990</span><span class="unit">Por sesión <b>$29.998</b></span></div>
+        <div class="cta">Agregar — $179.990</div>
+      </div>
+    </div>
+    <p class="cap"><b>Tradeoff:</b> coherencia visual máxima con las tabs ya existentes en la ficha; los rótulos largos ("10 a 15 cm") se abrevian a rangos. El subrayado consume algo más de alto que el segmented.</p>
+  </div>
+
+  <div>
+    <div class="card">
+      <div class="card ph" style="border-radius:0"></div>
+      <div class="body">
+        <h3>Despigmentación Láser | Rostro completo</h3>
+        <div class="pills">
+          <button class="pill active"><span class="tag">Recomendada</span><span class="n">3 sesiones</span><span class="h">$129.990</span></button>
+          <button class="pill"><span class="n">1 sesión</span><span class="h">$45.000</span></button>
+        </div>
+        <div class="priceblock"><span class="now">$129.990</span><span class="unit">Por sesión <b>$43.330</b></span></div>
+        <div class="cta">Agregar — $129.990</div>
+      </div>
+    </div>
+    <p class="cap">Con un solo atributo, la tarjeta queda idéntica a la actual: sin fila de tamaño.</p>
+  </div>
+</div>
+</body>
+</html>

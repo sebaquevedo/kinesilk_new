@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "chosen": "01-segmented-dos-niveles.html",
+  "handoffs": {
+    "01-segmented-dos-niveles.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-21T00:29:29.513Z",
+      "startedAt": "2026-11-21T00:31:40.944Z",
+      "implementedAt": "2026-11-21T01:09:42.754Z",
+      "note": "Implementado en el tema real (functions.php + styles.css + session-select.js): segmented de dos niveles con tabs de tamaño + mini-precio, píldoras por grupo, label \"Tamaño del tatuaje\", regla \"sin tabs con un solo atributo\" (aplicada también al caso Cantidad), y soporte para producto de un solo atributo no-numérico (píldoras con nombre de término). Verificado funcionalmente con navegador en los 3 productos de prueba y en tarjetas de catálogo.",
+      "previewUrl": "http://127.0.0.1/producto/test-borrado-de-tatuajes-laser-sesiones-x-5-tamanos/"
+    }
+  }
+}
