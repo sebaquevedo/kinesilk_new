@@ -602,9 +602,45 @@ function kinesilk_is_session_product( $p ) {
 	return false;
 }
 
+/* Producto variable con un solo atributo de selección que no es sesiones
+   (p. ej. "Cantidad": 1 / hasta 5 / ilimitado): recibe el mismo selector de
+   píldoras, sin pestañas de tamaño. */
+function kinesilk_is_single_attr_product( $p ) {
+	if ( ! $p instanceof WC_Product || ! $p->is_type( 'variable' ) ) {
+		return false;
+	}
+	$attrs = array_keys( $p->get_attributes() );
+	return 1 === count( $attrs ) && false === strpos( (string) $attrs[0], 'sesiones' );
+}
+
 function kinesilk_session_count( $value ) {
 	$n = (int) preg_replace( '/[^0-9]/', '', (string) $value );
 	return $n > 0 ? $n : 0;
+}
+
+/* Rótulo abreviado de tamaño para las pestañas: "Hasta 3 cm" → "≤ 3",
+   "de 4 a 9 cm" → "4–9", "sobre 20 cm" → "20+". */
+function kinesilk_size_short( $value ) {
+	$clean = static function ( $n ) {
+		$n = str_replace( ',', '.', trim( (string) $n ) );
+		if ( false !== strpos( $n, '.' ) ) {
+			$n = rtrim( rtrim( $n, '0' ), '.' );
+		}
+		return $n;
+	};
+	$s = trim( mb_strtolower( (string) $value ) );
+	$s = str_replace( 'cm', '', $s );
+	$s = trim( $s );
+	if ( preg_match( '/^hasta\s*([\d.,]+)/', $s, $m ) ) {
+		return '≤ ' . $clean( $m[1] );
+	}
+	if ( preg_match( '/^sobre\s*([\d.,]+)/', $s, $m ) ) {
+		return $clean( $m[1] ) . '+';
+	}
+	if ( preg_match( '/^(?:de\s*)?([\d.,]+)\s*(?:a|-|–)\s*([\d.,]+)/', $s, $m ) ) {
+		return $clean( $m[1] ) . '–' . $clean( $m[2] );
+	}
+	return '' !== $s ? $s : (string) $value;
 }
 
 function kinesilk_session_widget( $p ) {
@@ -621,10 +657,28 @@ function kinesilk_session_widget( $p ) {
 		}
 		$key = '';
 		$val = '';
-		foreach ( (array) $v['attributes'] as $ak => $av ) {
+		$size_key = null;
+		$size = null;
+		$attrs_v = (array) $v['attributes'];
+		foreach ( $attrs_v as $ak => $av ) {
 			if ( false !== strpos( $ak, 'sesiones' ) ) {
 				$key = $ak;
 				$val = $av;
+			}
+		}
+		if ( '' === $key ) {
+			// Producto de un solo atributo (p. ej. cantidad): píldoras por ese atributo, sin agrupar.
+			if ( ! empty( $attrs_v ) ) {
+				$key = (string) array_key_first( $attrs_v );
+				$val = (string) reset( $attrs_v );
+			}
+		} else {
+			foreach ( $attrs_v as $ak => $av ) {
+				if ( false === strpos( $ak, 'sesiones' ) && null === $size_key ) {
+					// get_available_variations() antepone "attribute_"; normalizar para term/label.
+					$size_key = preg_replace( '/^attribute_/', '', (string) $ak );
+					$size = (string) $av;
+				}
 			}
 		}
 		if ( '' === $key && ! empty( $v['attributes'] ) ) {
@@ -635,9 +689,12 @@ function kinesilk_session_widget( $p ) {
 			'vid' => (int) $v['variation_id'],
 			'now' => (float) $v['display_price'],
 			'reg' => (float) $v['display_regular_price'],
-			'ses' => kinesilk_session_count( $val ),
+			'is_ses' => ( '' !== $key && false !== strpos( $key, 'sesiones' ) ),
+			'ses' => ( '' !== $key && false !== strpos( $key, 'sesiones' ) ) ? kinesilk_session_count( $val ) : 0,
 			'key' => $key,
 			'val' => $val,
+			'size_key' => $size_key,
+			'size' => $size,
 		);
 	}
 	if ( ! $items ) {
@@ -650,8 +707,20 @@ function kinesilk_session_widget( $p ) {
 		}
 	);
 
-	$pills = '';
-	foreach ( $items as $i => $it ) {
+	// Agrupar por el segundo atributo (p. ej. tamaño). Sin segundo atributo: un solo grupo.
+	$groups = array();
+	$order  = array();
+	foreach ( $items as $it ) {
+		$g = ( null !== $it['size_key'] && null !== $it['size'] ) ? $it['size_key'] . '|' . $it['size'] : '';
+		if ( ! isset( $groups[ $g ] ) ) {
+			$groups[ $g ] = array();
+			$order[]      = $g;
+		}
+		$groups[ $g ][] = $it;
+	}
+	$multi = count( $order ) > 1;
+
+	$make_pill = function ( $it, $i ) use ( $pid, $link ) {
 		$href  = add_query_arg(
 			array(
 				'add-to-cart'  => $pid,
@@ -662,8 +731,18 @@ function kinesilk_session_widget( $p ) {
 			$link
 		);
 		$tag   = 0 === $i ? '<span class="ks-sel__tag">' . esc_html__( 'Recomendada', 'kinesilk' ) . '</span>' : '';
-		$label = $it['ses'] ? sprintf( _n( '%d sesión', '%d sesiones', $it['ses'], 'kinesilk' ), $it['ses'] ) : $it['val'];
-		$pills .= sprintf(
+		if ( ! empty( $it['is_ses'] ) ) {
+			$label = $it['ses'] ? sprintf( _n( '%d sesión', '%d sesiones', $it['ses'], 'kinesilk' ), $it['ses'] ) : (string) $it['val'];
+		} else {
+			// Atributo no-numérico (p. ej. cantidad): nombre del término, no el slug ni "sesiones".
+			$label = (string) $it['val'];
+			$tax = preg_replace( '/^attribute_/', '', (string) $it['key'] );
+			$t = get_term_by( 'slug', (string) $it['val'], $tax );
+			if ( $t && ! is_wp_error( $t ) ) {
+				$label = $t->name;
+			}
+		}
+		return sprintf(
 			'<button type="button" class="ks-sel__pill" aria-pressed="%s" data-vid="%d" data-ses="%d" data-now="%s" data-reg="%s" data-href="%s">%s<span class="ks-sel__pilln">%s</span><span class="ks-sel__pillh">%s</span></button>',
 			0 === $i ? 'true' : 'false',
 			$it['vid'],
@@ -675,9 +754,41 @@ function kinesilk_session_widget( $p ) {
 			esc_html( $label ),
 			wp_kses_post( wc_price( $it['now'] ) )
 		);
+	};
+
+	$tabs_html = '';
+	$pills     = '';
+	$global_i  = 0;
+	foreach ( $order as $gi => $g ) {
+		$group_pills = '';
+		foreach ( $groups[ $g ] as $it ) {
+			$group_pills .= $make_pill( $it, $global_i );
+			$global_i++;
+		}
+		if ( ! $multi ) {
+			$pills = $group_pills;
+			continue;
+		}
+		$first     = $groups[ $g ][0];
+		$term      = $first['size'] ? get_term_by( 'slug', (string) $first['size'], (string) $first['size_key'] ) : null;
+		$size_name = ( $term && ! is_wp_error( $term ) ) ? $term->name : (string) $first['size'];
+		$g_key     = esc_attr( (string) $first['size'] );
+		$tabs_html .= sprintf(
+			'<button type="button" class="ks-size__tab" role="tab" aria-selected="%s" data-group="%s">%s<small>%s</small></button>',
+			0 === $gi ? 'true' : 'false',
+			$g_key,
+			esc_html( kinesilk_size_short( $size_name ) ),
+			wp_kses_post( wc_price( $first['now'] ) )
+		);
+		$pills .= sprintf(
+			'<div class="ks-sel__group" data-group="%s"%s>%s</div>',
+			$g_key,
+			0 === $gi ? '' : ' hidden',
+			$group_pills
+		);
 	}
 
-	$d         = $items[0];
+	$d = $groups[ $order[0] ][0];
 	$off_html  = '';
 	$was_html  = '';
 	if ( $d['reg'] > $d['now'] ) {
@@ -699,6 +810,10 @@ function kinesilk_session_widget( $p ) {
 	ob_start();
 	?>
 	<div class="ks-sel" data-ks-sel="<?php echo esc_attr( $pid ); ?>">
+		<?php if ( $multi ) : ?>
+		<span class="ks-sel__lbl"><?php echo esc_html( function_exists( 'wc_attribute_label' ) ? wc_attribute_label( (string) $d['size_key'] ) : __( 'Tamaño', 'kinesilk' ) ); ?> <span class="ks-sel__lbl-unit">(centímetros)</span></span>
+		<div class="ks-size-tabs" role="tablist"><?php echo $tabs_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
+		<?php endif; ?>
 		<div class="ks-sel__pills"><?php echo $pills; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 		<div class="ks-sel__price">
 			<div class="ks-sel__prow">
@@ -717,7 +832,7 @@ function kinesilk_session_widget( $p ) {
 function kinesilk_session_price_block( $content ) {
 	global $product;
 	$p = $product instanceof WC_Product ? $product : wc_get_product( get_the_ID() );
-	if ( $p && kinesilk_is_session_product( $p ) ) {
+	if ( $p && ( kinesilk_is_session_product( $p ) || kinesilk_is_single_attr_product( $p ) ) ) {
 		$w = kinesilk_session_widget( $p );
 		if ( $w ) {
 			return $w;
@@ -729,7 +844,7 @@ function kinesilk_session_price_block( $content ) {
 function kinesilk_session_button_block( $content ) {
 	global $product;
 	$p = $product instanceof WC_Product ? $product : wc_get_product( get_the_ID() );
-	if ( $p && kinesilk_is_session_product( $p ) ) {
+	if ( $p && ( kinesilk_is_session_product( $p ) || kinesilk_is_single_attr_product( $p ) ) ) {
 		return '';
 	}
 	return $content;
@@ -746,7 +861,7 @@ if ( class_exists( 'WooCommerce' ) ) {
 function kinesilk_session_hide_native_form( $content ) {
 	global $product;
 	$p = $product instanceof WC_Product ? $product : wc_get_product( get_the_ID() );
-	if ( $p && kinesilk_is_session_product( $p ) ) {
+	if ( $p && ( kinesilk_is_session_product( $p ) || kinesilk_is_single_attr_product( $p ) ) ) {
 		return '';
 	}
 	return $content;

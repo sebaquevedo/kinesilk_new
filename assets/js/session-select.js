@@ -49,21 +49,41 @@
 		}
 	}
 
+	function activePill( root ) {
+		var grp = root.querySelector( '.ks-sel__group:not([hidden])' );
+		var scope = grp || root;
+		return scope.querySelector( '.ks-sel__pill[aria-pressed="true"]' ) || scope.querySelector( '.ks-sel__pill' );
+	}
+
 	function init( ctx ) {
 		( ctx || document ).querySelectorAll( '.ks-sel' ).forEach( function ( root ) {
 			if ( root.dataset.ksReady ) { return; }
 			root.dataset.ksReady = '1';
-			var sel = root.querySelector( '.ks-sel__pill[aria-pressed="true"]' ) || root.querySelector( '.ks-sel__pill' );
+			var sel = activePill( root );
 			if ( sel ) { paint( root, sel ); }
 		} );
 	}
 
 	document.addEventListener( 'click', function ( e ) {
+		var tab = e.target.closest( '.ks-size__tab' );
+		if ( tab ) {
+			var troot = tab.closest( '.ks-sel' );
+			if ( ! troot ) { return; }
+			troot.querySelectorAll( '.ks-size__tab' ).forEach( function ( t ) {
+				t.setAttribute( 'aria-selected', t === tab ? 'true' : 'false' );
+			} );
+			troot.querySelectorAll( '.ks-sel__group' ).forEach( function ( g ) {
+				g.hidden = ( g.getAttribute( 'data-group' ) !== tab.getAttribute( 'data-group' ) );
+			} );
+			paint( troot, activePill( troot ) );
+			return;
+		}
 		var pill = e.target.closest( '.ks-sel__pill' );
 		if ( ! pill ) { return; }
 		var root = pill.closest( '.ks-sel' );
 		if ( ! root ) { return; }
-		root.querySelectorAll( '.ks-sel__pill' ).forEach( function ( b ) {
+		var scope = pill.closest( '.ks-sel__group' ) || root;
+		scope.querySelectorAll( '.ks-sel__pill' ).forEach( function ( b ) {
 			b.setAttribute( 'aria-pressed', b === pill ? 'true' : 'false' );
 		} );
 		paint( root, pill );
