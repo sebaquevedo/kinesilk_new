@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>03 — Selector de tamaño desplegable + tabla de precios</title>
+<style>
+  :root{
+    --cream:#FCF9EA; --white:#FFFFFF; --ink:#1E2B2A; --ink-soft:#4A5856;
+    --mint:#87E9CE; --coral:#FEA4A4; --promo-pink:#C2366B;
+    --radius:24px; --radius-sm:14px;
+    --shadow:0 1px 2px rgba(30,43,42,.04), 0 12px 32px -16px rgba(30,43,42,.18);
+    --f-head:"Outfit","Segoe UI",system-ui,sans-serif;
+    --f-body:"DM Sans","Segoe UI",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--f-body);background:var(--cream);color:var(--ink);padding:48px 64px}
+  h1{font-family:var(--f-head);font-size:1.6rem;margin-bottom:6px}
+  .note{color:var(--ink-soft);max-width:760px;margin-bottom:36px;font-size:.95rem}
+  .grid{display:flex;gap:28px;align-items:start;flex-wrap:wrap}
+  .card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);width:300px;overflow:hidden;display:flex;flex-direction:column}
+  .card.ph{background:linear-gradient(135deg,#BADEDA 0%,#87E9CE 60%,#FFBDBE 100%);height:210px}
+  .body{padding:0 16px 16px;display:flex;flex-direction:column;gap:12px}
+  h3{font-family:var(--f-head);font-size:1.02rem;font-weight:700;line-height:1.25}
+  .lbl-u{text-transform:none;letter-spacing:.04em}
+  .lbl{font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700}
+  .select{position:relative}
+  .select select{width:100%;appearance:none;background:var(--white);border:1.5px solid rgba(30,43,42,.16);border-radius:var(--radius-sm);padding:.55rem 2rem .55rem .8rem;font-family:var(--f-head);font-weight:700;font-size:.85rem;color:var(--ink);cursor:pointer}
+  .select::after{content:"▾";position:absolute;right:.8rem;top:50%;transform:translateY(-50%);color:var(--ink-soft);pointer-events:none}
+  .select:focus-within select{outline:2px solid var(--ink);outline-offset:2px}
+
+  .pills{display:flex;gap:.5rem;position:relative;padding-top:8px}
+  .pill{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--white);border:1.5px solid rgba(30,43,42,.16);border-radius:var(--radius-sm);padding:.5rem .3rem;position:relative;cursor:pointer}
+  .pill .tag{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--mint);font-size:.56rem;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:7px;white-space:nowrap}
+  .pill .n{font-family:var(--f-head);font-weight:700;font-size:.85rem}
+  .pill .h{font-size:.72rem;color:var(--ink-soft)}
+  .pill.active{border-color:var(--coral);background:rgba(254,164,164,.16)}
+
+  .priceblock{display:flex;align-items:baseline;gap:10px}
+  .now{font-family:var(--f-head);font-size:1.6rem;font-weight:700}
+  .unit{font-size:.8rem;color:var(--ink-soft)}
+  .unit b{color:#C2366B}
+  .cta{display:flex;align-items:center;justify-content:center;background:var(--ink);color:var(--cream);border-radius:999px;min-height:48px;font-weight:600}
+  .cap{margin-top:10px;max-width:300px;font-size:.8rem;color:var(--ink-soft)}
+  .cap b{color:var(--ink)}
+  .wide{width:640px}
+  table{width:100%;border-collapse:collapse;font-size:.8rem}
+  th{font-family:var(--f-head);text-align:left;font-size:.72rem;color:var(--ink-soft);padding:8px 10px;border-bottom:1px solid rgba(30,43,42,.12)}
+  td{padding:9px 10px;border-bottom:1px solid rgba(30,43,42,.08)}
+  td.p{font-family:var(--f-head);font-weight:700}
+  tr.sel td{background:rgba(254,164,164,.14)}
+  tr.sel td:first-child{border-left:3px solid var(--coral)}
+  .badge{display:inline-block;background:var(--mint);font-size:.56rem;text-transform:uppercase;font-weight:700;padding:1px 6px;border-radius:7px;margin-left:6px}
+</style>
+</head>
+<body>
+<h1>03 · Selector desplegable + matriz de precios</h1>
+<p class="note">Prioriza el espacio: el tamaño vive en un <b>select</b> nativo accesible (teclado y móvil sin costo) y el plan en las píldoras actuales. En la ficha del producto, el mismo patrón escala a una <b>tabla comparativa</b> de los 10 precios.</p>
+
+<div class="grid">
+  <div>
+    <div class="card">
+      <div class="card ph"></div>
+      <div class="body">
+        <h3>Borrado de Tatuajes Láser</h3>
+        <span class="lbl">Tamaño del tatuaje <span class="lbl-u">(centímetros)</span></span>
+        <div class="select">
+          <select aria-label="Tamaño del tatuaje">
+            <option selected>Hasta 3 cm</option>
+            <option>De 4 a 9 cm</option>
+            <option>De 10 a 15 cm</option>
+            <option>De 16 a 20 cm</option>
+            <option>Sobre 20 cm</option>
+          </select>
+        </div>
+        <div class="pills">
+          <button class="pill active"><span class="tag">Recomendada</span><span class="n">6 sesiones</span><span class="h">$179.990</span></button>
+          <button class="pill"><span class="n">1 sesión</span><span class="h">$29.990</span></button>
+        </div>
+        <div class="priceblock"><span class="now">$179.990</span><span class="unit">Por sesión <b>$29.998</b></span></div>
+        <div class="cta">Agregar — $179.990</div>
+      </div>
+    </div>
+    <p class="cap"><b>Tradeoff:</b> la opción más robusta ante más tamaños futuros y tarjetas angostas; a cambio, el precio por tamaño solo se ve tras abrir el desplegable (por eso el precio unitario de "Por sesión" sigue visible).</p>
+  </div>
+
+  <div>
+    <div class="card wide">
+      <div class="body" style="padding-top:16px">
+        <h3>Borrado de Tatuajes Láser · ficha de producto</h3>
+        <span class="lbl">Precios por tamaño y plan</span>
+        <table>
+          <thead><tr><th>Tamaño</th><th>6 sesiones</th><th>Por sesión</th><th>1 sesión</th></tr></thead>
+          <tbody>
+            <tr class="sel"><td>Hasta 3 cm <span class="badge">Recomendada</span></td><td class="p">$179.990</td><td>$29.998</td><td class="p">$29.990</td></tr>
+            <tr><td>De 4 a 9 cm</td><td class="p">$189.990</td><td>$31.665</td><td class="p">$35.990</td></tr>
+            <tr><td>De 10 a 15 cm</td><td class="p">$229.990</td><td>$38.332</td><td class="p">$39.990</td></tr>
+            <tr><td>De 16 a 20 cm</td><td class="p">$269.990</td><td>$44.998</td><td class="p">$49.990</td></tr>
+            <tr><td>Sobre 20 cm</td><td class="p">$299.990</td><td>$49.998</td><td class="p">$55.990</td></tr>
+          </tbody>
+        </table>
+        <div class="cta" style="max-width:300px">Agregar — $179.990</div>
+      </div>
+    </div>
+    <p class="cap"><b>Variante ficha:</b> la tabla permite comparar los 10 precios de un vistazo; la fila activa queda marcada con coral y sincroniza el CTA.</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "arrangement": "free",
+  "positions": {
+    "system": {
+      "x": 0,
+      "y": 0
+    },
+    "01-segmented-dos-niveles.html": {
+      "x": 1826,
+      "y": 47
+    },
+    "02-tabs-subrayadas.html": {
+      "x": 3312,
+      "y": 53
+    },
+    "03-select-matriz.html": {
+      "x": 4792,
+      "y": 55
+    }
+  }
+}

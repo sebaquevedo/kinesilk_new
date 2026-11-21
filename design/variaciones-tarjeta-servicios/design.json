@@ -1,0 +1,9 @@
+{
+  "title": "Selector de variaciones para tarjetas de servicio (2 atributos)",
+  "brief": "El producto 'Borrado de Tatuajes Láser' tiene 10 variaciones (5 tamaños × 2 planes de sesiones) y la tarjeta del catálogo colapsa: el selector actual ks-sel etiqueta las píldoras solo por sesiones, deja 10 píldoras sin wrap y cada una queda a 23px con texto vertical ilegible. Diseñar una alternativa con pestañas seleccionables para el tamaño, coherente con el estilo del tema kinesilk_new (tokens de design/system.md).",
+  "artboards": [
+    { "file": "01-segmented-dos-niveles.html", "title": "Segmented de dos niveles", "tradeoff": "Máximo aprovechamiento del ancho de tarjeta y anticipación de precio por tamaño; requiere abreviar los rótulos de tamaño", "width": 1440, "height": 900 },
+    { "file": "02-tabs-subrayadas.html", "title": "Pestañas subrayadas de tamaño", "tradeoff": "Coherencia visual máxima con las tabs WooCommerce existentes del tema; consume más alto vertical", "width": 1440, "height": 900 },
+    { "file": "03-select-matriz.html", "title": "Selector desplegable + matriz de precios", "tradeoff": "Más robusto ante futuros tamaños y tarjetas angostas (select nativo accesible); el precio por tamaño se oculta tras el desplegable en la tarjeta", "width": 1440, "height": 900 }
+  ]
+}
